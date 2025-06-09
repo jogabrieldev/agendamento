@@ -1,0 +1,13 @@
+
+.home-container {
+  background: #1e1e2f;
+}
+
+.btn-anim {
+  transition: transform 0.2s ease;
+}
+
+.btn-anim:hover {
+  transform: scale(1.03);
+}
+

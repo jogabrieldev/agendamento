@@ -1,0 +1,50 @@
+<div class="d-flex align-items-center justify-content-center vh-100 bg-light">
+  <div class="card shadow p-4" style="max-width: 400px; width: 100%;">
+    <h3 class="text-center mb-4">Acesso ao Sistema</h3>
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm" novalidate>
+      <div class="mb-3">
+        <label for="phone" class="form-label">Telefone</label>
+        <input
+          type="text"
+          id="phone"
+          class="form-control"
+          [(ngModel)]="telefone"
+          name="Telefone"
+          required
+          placeholder="Digite seu e-mail"
+        />
+        <div *ngIf="loginForm.submitted && !telefone" class="form-text text-danger">
+         nome é obrigatório.
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="senha" class="form-label">Senha</label>
+        <input
+          type="password"
+          id="senha"
+          class="form-control"
+          [(ngModel)]="senha"
+          name="senha"
+          required
+          placeholder="Digite sua senha"
+        />
+        <div *ngIf="loginForm.submitted && !senha" class="form-text text-danger">
+          Senha é obrigatória.
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary w-100"
+        [disabled]="!loginForm.valid"
+      >
+        Entrar
+      </button>
+
+      <div class="text-center mt-3">
+        <a href="#" class="text-decoration-none small">Esqueceu sua senha?</a>
+      </div>
+    </form>
+  </div>
+</div>
