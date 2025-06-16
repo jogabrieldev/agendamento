@@ -1,0 +1,51 @@
+<div class="container mt-4">
+  <h2 class="mb-4 text-light">Lista de Serviços Cadastrados</h2>
+
+  <!-- Serviço 1 -->
+  <div *ngFor="let servico of services" class="card service-card mb-3">
+    <div class="card-body">
+      <h5 class="service-header">{{ servico.name }}</h5>
+      <p><strong>Descrição:</strong> {{ servico.descricao }}</p>
+      <p><strong>Duração:</strong> {{ servico.duracao }} minutos</p>
+      <p><strong>Valor:</strong> R$ {{ servico.price }}</p>
+      <div class="d-flex gap-2">
+        <button class="btn btn-sm btn-primary">
+          <i class="bi bi-pencil-square"></i> Editar
+        </button>
+        <button class="btn btn-sm btn-danger">
+          <i class="bi bi-trash"></i> Deletar
+        </button>
+      </div>
+    </div>
+  </div>
+
+<div class="d-flex justify-content-center">
+     <button  class="btn btn-outline-light w-50 mt-3 btn-anim" routerLink="/home">
+      Voltar
+  </button>
+</div>
+
+  <!-- Serviço 2 -->
+  <!-- <div class="card service-card">
+    <div class="card-body">
+      <h5 class="service-header">Barba Completa</h5>
+      <p><strong>Descrição:</strong> Modelagem, aparo e acabamento de barba.</p>
+      <p><strong>Duração:</strong> 20 minutos</p>
+      <p><strong>Valor:</strong> R$ 20,00</p>
+      <div class="d-flex gap-2">
+        <button class="btn btn-sm btn-primary">
+          <i class="bi bi-pencil-square"></i> Editar
+        </button>
+        <button class="btn btn-sm btn-danger">
+          <i class="bi bi-trash"></i> Deletar
+        </button>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- Você pode duplicar o bloco acima para mais serviços -->
+
+</div>
+
+
+

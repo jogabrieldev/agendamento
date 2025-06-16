@@ -6,16 +6,14 @@ import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
-export class movimentHours {
+export class movimentService {
  
   constructor(private http: HttpClient , private router:Router) {}
 
-  registerHours(newHours: { horario: string, status: string, idUser: number | string }): Observable<any> {
-  return this.http.post(`http://localhost:3000/disponi`, newHours, {
+  registerService(newService: { name:string, price:number, idUser: number | string , duracao:string , descricao:string }): Observable<any> {
+  return this.http.post(`http://localhost:3000/service`, newService, {
     withCredentials: true
   });
 }
-
-
 
 }

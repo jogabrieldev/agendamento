@@ -32,9 +32,13 @@ export class LoginComponent {
         console.log('Usuário autenticado com sucesso', res);
 
         const tokenRecebidoDoBackend = res.token; 
-        if(tokenRecebidoDoBackend && res.success){
+        if(tokenRecebidoDoBackend){
            this.authService.login(tokenRecebidoDoBackend);
-           localStorage.setItem("userId", res.idUser);
+           console.log('Resposta do login:', res);
+     console.log('res.user:', res.user);
+console.log('res.user.idUser:', res.user?.idUser);
+
+           localStorage.setItem("userId", res.user?.idUser);
           this.router.navigate(['/home']);
         }else{
             alert('Token não recebido');

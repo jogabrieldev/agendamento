@@ -1,5 +1,4 @@
 
-
   <div class="container py-5">
     <div class="text-center mb-5">
       <h1 class="display-5 fw-bold text-light"><i class="bi bi-calendar-check"></i> Cadastro de Atendimento</h1>
@@ -13,11 +12,11 @@
         <div class="row">
            <div class="col-md-6 mb-3">
             <label for="inicio" class="form-label text-light">Horario</label>
-            <input type="time" id="hours" class="form-control" required />
+            <input type="time" id="hours" class="form-control" name="hours" [(ngModel)]="hours" required />
           </div>
           
         </div>
-        <button  class="btn btn-outline-light w-100 mt-3 btn-anim">
+        <button type="button"  (click)="registerHours()" class="btn btn-outline-light w-100 mt-3 btn-anim">
           <i class="bi bi-check-circle"></i> Salvar Horário
         </button>
       </form>
@@ -29,19 +28,24 @@
       <form>
         <div class="mb-3">
           <label for="nomeServico" class="form-label text-light">Nome do Serviço</label>
-          <input type="text" id="nomeServico" class="form-control" placeholder="Ex: Corte Masculino" required />
+          <input type="text" id="nomeServico" class="form-control" placeholder="Ex: Corte Masculino" name="nomeServico" [(ngModel)]="nomeServico" required />
+        </div>
+
+        <div class="mb-3">
+          <label for="descricao" class="form-label text-light">Descrição</label>
+          <input type="text" id="descricao" class="form-control" placeholder="Ex: Corte Masculino" name="descricao" [(ngModel)]="descricao" required />
         </div>
         <div class="row">
           <div class="col-md-6 mb-3">
             <label for="preco" class="form-label text-light">Preço (R$)</label>
-            <input type="number" id="preco" class="form-control" min="0" step="0.01" required />
+            <input type="number" id="preco" class="form-control" min="0" step="0.01" name="preco" [(ngModel)]="preco" required />
           </div>
           <div class="col-md-6 mb-3">
             <label for="duracao" class="form-label text-light">Duração (min)</label>
-            <input type="number" id="duracao" class="form-control" min="0" required />
+            <input type="text" id="duracao" class="form-control" min="0" name="duracao" [(ngModel)]="duracao" required/>
           </div>
         </div>
-        <button type="submit" class="btn btn-outline-light w-100 mt-3 btn-anim">
+        <button type="button" class="btn btn-outline-light w-100 mt-3 btn-anim"  (click)="registerService()">
           <i class="bi bi-save"></i> Salvar Serviço
         </button>
       </form>
@@ -49,7 +53,7 @@
   </div>
   
 <div class="d-flex justify-content-center">
-  <button class="btn btn-outline-light w-50 mt-3 btn-anim" routerLink="/home">
+  <button  class="btn btn-outline-light w-50 mt-3 btn-anim" routerLink="/home">
       Voltar
   </button>
 </div>

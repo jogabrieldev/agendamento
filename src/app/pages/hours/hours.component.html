@@ -1,0 +1,58 @@
+<div class="container my-4">
+  <div class="card shadow rounded">
+    <div class="card-header bg-primary text-white d-flex align-items-center">
+      <i class="bi bi-clock-fill me-2"></i>
+      <h5 class="mb-0">Lista de Horários Cadastrados</h5>
+    </div>
+
+    <div class="card-body">
+      <div class="table-responsive" *ngIf="horarios.length > 0; else semHorarios">
+        <table class="table table-hover align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>#</th>
+              <th>Horário</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let horario of horarios">
+              <td>{{ horario.idDispo }}</td>
+              <td>{{ horario.horario }}</td>
+              <td>{{ horario.status }}</td>
+              <!-- <td>
+                <span class="badge" [ngClass]="getBadgeClass(horario.status)">
+                  {{ horario.status }}
+                </span>
+              </td> -->
+              <td>
+                <button class="btn btn-sm btn-outline-primary me-2">
+                  <i class="bi bi-pencil-square"></i> Editar
+                </button>
+                <button class="btn btn-sm btn-outline-danger">
+                  <i class="bi bi-trash"></i> Excluir
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Caso não haja horários -->
+      <ng-template #semHorarios>
+        <div class="text-center text-muted py-4">
+          Nenhum horário cadastrado.
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
+<div class="d-flex justify-content-center">
+     <button  class="btn btn-outline-light w-50 mt-3 btn-anim" routerLink="/home">
+      Voltar
+  </button>
+</div>
+
+
+
