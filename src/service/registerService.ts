@@ -7,11 +7,12 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class movimentService {
- 
+  
+  private URL = 'http://localhost:3000/service'
   constructor(private http: HttpClient , private router:Router) {}
 
   registerService(newService: { name:string, price:number, idUser: number | string , duracao:string , descricao:string }): Observable<any> {
-  return this.http.post(`http://localhost:3000/service`, newService, {
+  return this.http.post(`${this.URL}`, newService, {
     withCredentials: true
   });
 }

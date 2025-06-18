@@ -9,10 +9,10 @@
       <p><strong>Duração:</strong> {{ servico.duracao }} minutos</p>
       <p><strong>Valor:</strong> R$ {{ servico.price }}</p>
       <div class="d-flex gap-2">
-        <button class="btn btn-sm btn-primary">
+        <button class="btn btn-sm btn-primary" (click)="openEditForm(servico)">
           <i class="bi bi-pencil-square"></i> Editar
         </button>
-        <button class="btn btn-sm btn-danger">
+        <button class="btn btn-sm btn-danger" (click)="deleteHours(servico.idServi)">
           <i class="bi bi-trash"></i> Deletar
         </button>
       </div>
@@ -23,6 +23,39 @@
      <button  class="btn btn-outline-light w-50 mt-3 btn-anim" routerLink="/home">
       Voltar
   </button>
+</div>
+
+<!-- Formulario edição -->
+<div *ngIf="selectedService" class="edit-popup card shadow">
+  <div class="card-header d-flex justify-content-between align-items-center bg-primary text-white">
+    <span>Editando Serviço: <b>{{ selectedService.name }}</b> </span>
+    <button class="btn-close btn-close-white" aria-label="Close" (click)="selectedService = null"></button>
+  </div>
+
+  <div class="card-body">
+    <div class="mb-2">
+      <label for="editName" class="form-label">Nome do Serviço</label>
+      <input type="text" id="editName" class="form-control form-control-sm" [(ngModel)]="selectedService.name">
+    </div>
+
+    <div class="mb-2">
+      <label for="editDescricao" class="form-label">Descrição</label>
+      <textarea id="editDescricao" class="form-control form-control-sm" [(ngModel)]="selectedService.descricao"></textarea>
+    </div>
+
+    <div class="mb-2">
+      <label for="editDuracao" class="form-label">Duração (minutos)</label>
+      <input type="number" id="editDuracao" class="form-control form-control-sm" [(ngModel)]="selectedService.duracao">
+    </div>
+
+    <div class="mb-2">
+      <label for="editPrice" class="form-label">Valor</label>
+      <input type="text" id="editPrice" class="form-control form-control-sm" mask="separator.2" thousandSeparator="." decimalMarker="," [(ngModel)]="selectedService.price">
+    </div>
+
+    <button class="btn btn-success btn-sm me-2" (click)="saveService()">Salvar</button>
+    <button class="btn btn-secondary btn-sm" (click)="selectedService = null">Cancelar</button>
+  </div>
 </div>
 
   <!-- Serviço 2 -->

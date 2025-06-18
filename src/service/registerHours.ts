@@ -7,11 +7,13 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class movimentHours {
+
+   private URL = 'http://localhost:3000/api/disponi'
  
   constructor(private http: HttpClient , private router:Router) {}
 
   registerHours(newHours: { horario: string, status: string, idUser: number | string }): Observable<any> {
-  return this.http.post(`http://localhost:3000/disponi`, newHours, {
+  return this.http.post(`${this.URL}`, newHours, {
     withCredentials: true
   });
 }

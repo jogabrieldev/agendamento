@@ -1,0 +1,42 @@
+.edit-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Fundo escuro semitransparente */
+  z-index: 1050; /* Maior que o normal da página */
+}
+
+.edit-popup {
+  max-width: 500px;
+  width: 90%;
+  background-color: #ffffff;
+  border-radius: 10px;
+  position: relative;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.custom-select-small {
+  padding: 0.25rem 0.5rem; /* Reduz o espaço interno */
+  font-size: 0.9rem;        /* Texto um pouco menor */
+}
+
+@media (max-width: 576px) {
+  .custom-select-small {
+    font-size: 0.8rem;      /* Texto menor ainda em telas muito pequenas */
+    padding: 0.2rem 0.4rem;
+  }
+}
+

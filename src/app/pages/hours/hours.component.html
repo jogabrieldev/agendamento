@@ -10,7 +10,6 @@
         <table class="table table-hover align-middle">
           <thead class="table-light">
             <tr>
-              <th>#</th>
               <th>Horário</th>
               <th>Status</th>
               <th>Ações</th>
@@ -18,19 +17,13 @@
           </thead>
           <tbody>
             <tr *ngFor="let horario of horarios">
-              <td>{{ horario.idDispo }}</td>
               <td>{{ horario.horario }}</td>
               <td>{{ horario.status }}</td>
-              <!-- <td>
-                <span class="badge" [ngClass]="getBadgeClass(horario.status)">
-                  {{ horario.status }}
-                </span>
-              </td> -->
               <td>
-                <button class="btn btn-sm btn-outline-primary me-2">
+                <button class="btn btn-sm btn-outline-primary me-2" (click)="openEditForm(horario)">
                   <i class="bi bi-pencil-square"></i> Editar
                 </button>
-                <button class="btn btn-sm btn-outline-danger">
+                <button class="btn btn-sm btn-outline-danger" (click)="deleteHours(horario.idDispo)" >
                   <i class="bi bi-trash"></i> Excluir
                 </button>
               </td>
@@ -53,6 +46,39 @@
       Voltar
   </button>
 </div>
+
+<!-- Fundo escuro (overlay) -->
+<div class="edit-overlay d-flex justify-content-center align-items-center" *ngIf="selectedHour">
+  <!-- Modal de edição -->
+  <div class="edit-popup card shadow p-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="mb-0">Editando: {{ selectedHour.horario }}</h5>
+      <button class="btn-close" aria-label="Close" (click)="selectedHour = null"></button>
+    </div>
+
+    <div class="mb-3">
+      <label for="editHorario" class="form-label">Horário</label>
+      <input type="text" id="editHorario" [(ngModel)]="selectedHour.horario" class="form-control">
+    </div>
+
+    <div class="mb-3">
+     <label for="editStatus" class="form-label">Status</label>
+     <select id="editStatus" class="form-select custom-select-small" [(ngModel)]="selectedHour.status" >
+     <option >Selecione o status</option>
+     <option value="Disponível">Disponível</option>
+     <option value="Indisponível">Indisponível</option>
+     </select>
+    </div>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-success me-2" (click)="saveHour()">Salvar</button>
+      <button class="btn btn-secondary" (click)="selectedHour = null">Cancelar</button>
+    </div>
+
+  </div>
+</div>
+
 
 
 

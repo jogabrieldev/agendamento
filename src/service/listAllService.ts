@@ -7,7 +7,7 @@ export interface Service {
   name: string;
   descricao: string;
   duracao: number;
-  price: string;
+  price: string | number;
   idUser: number;
 }
 
@@ -22,4 +22,13 @@ export class ListAllService {
   getAllServices(): Observable<{ service: Service[] }> {
     return this.http.get<{ service: Service[] }>(this.apiUrl, { withCredentials: true });
   }
+
+  deleteService(id: number): Observable<any> {
+  return this.http.delete(`${this.apiUrl}/${id}`, { withCredentials: true });
+  }
+
+  updateService(id: number, updatedService: { name: string, descricao: string, duracao: number, price: string | number }): Observable<any> {
+  return this.http.put(`${this.apiUrl}/${id}`, updatedService, { withCredentials: true });
+}
+
 }

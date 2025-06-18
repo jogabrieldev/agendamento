@@ -33,5 +33,54 @@ export class HoursComponent implements OnInit {
     });
   }
 
+  deleteHours(id: number): void {
+  if (confirm('Tem certeza que deseja excluir este horário?')) {
+    this.listHoursService.deleteHours(id).subscribe({
+      next: () => {
+        // Após deletar com sucesso, atualiza a lista local
+        this.horarios = this.horarios.filter(h => h.idDispo !== id);
+        alert('Horário deletado com sucesso!')
+         console.log('Horário deletado com sucesso!');
+      },
+      error: (error) => {
+        console.error('Erro ao deletar horário:', error);
+        alert('Erro para deletar horario')
+      }
+    });
+  }
+}
+
+selectedHour: Horario | null = null;
+
+openEditForm(horario: Horario): void {
+  this.selectedHour = { ...horario };
+}
+
+
+saveHour(): void {
+  if (!this.selectedHour) return;
+
+  const updatedHour = {
+    horario: this.selectedHour.horario,
+    status: this.selectedHour.status
+  };
+
+  this.listHoursService.updateHour(this.selectedHour.idDispo, updatedHour).subscribe({
+    next: () => {
+      console.log('Horário atualizado com sucesso');
+      alert('Horario atualizado com sucesso')
+      this.carregarHorarios();
+      this.selectedHour = null;  // Fecha o formulário de edição
+    },
+    error: (error) => {
+      console.error('Erro ao atualizar horário:', error);
+       alert('Erro a atualizar horario')
+    }
+  });
+}
+
+
+
+
 
 }
