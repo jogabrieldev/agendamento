@@ -23,6 +23,11 @@ export class ListAllService {
     return this.http.get<{ service: Service[] }>(this.apiUrl, { withCredentials: true });
   }
 
+  getServicesByBarber(barberId: number): Observable<{ service: Service[] }> {
+  return this.http.get<{ service: Service[] }>(`${this.apiUrl}?barberId=${barberId}`, { withCredentials: true });
+}
+
+
   deleteService(id: number): Observable<any> {
   return this.http.delete(`${this.apiUrl}/${id}`, { withCredentials: true });
   }

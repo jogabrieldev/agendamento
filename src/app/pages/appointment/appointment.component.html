@@ -1,0 +1,65 @@
+<!-- src/app/components/appointment/appointment.component.html -->
+<div class="container py-4">
+  <h2>Agendar Horário</h2>
+
+  <div class="mb-3">
+    <label for="data" class="form-label">Data</label>
+    <input id="data" type="date" class="form-control" [(ngModel)]="dataSelecionada" (change)="buscarHorarios()" />
+  </div>
+
+  <div *ngIf="loadingTimes" class="mb-3">
+    <span>Carregando horários disponíveis...</span>
+  </div>
+
+  <div *ngIf="horariosDisponiveis.length > 0" class="mb-3">
+    <label class="form-label">Horários disponíveis</label>
+    <select class="form-select" [(ngModel)]="horarioEscolhido">
+      <option [value]="''" disabled>Selecione um horário</option>
+      <option *ngFor="let horario of horariosDisponiveis" [value]="horario">
+        {{ horario }}
+      </option>
+    </select>
+  </div>
+
+  <div *ngIf="horariosDisponiveis.length === 0 && dataSelecionada && !loadingTimes" class="alert alert-warning">
+    Nenhum horário disponível para esta data.
+  </div>
+
+  <button class="btn btn-primary" (click)="agendar()" [disabled]="loadingSubmit">
+    {{ loadingSubmit ? 'Agendando...' : 'Agendar' }}
+  </button>
+</div>
+
+<div class="container mt-4" *ngIf="!loading">
+  <h2 class="mb-3">Olá, {{ client.name }}! Veja nossos serviços:</h2>
+
+  <div *ngIf="services.length > 0">
+    <ul class="list-group">
+      <li *ngFor="let service of services" class="list-group-item d-flex justify-content-between align-items-start">
+        <div>
+          <strong>{{ service.name }}</strong> - R$ {{ service.price }}<br />
+          {{ service.descricao }} - Duração: {{ service.duracao }} min
+        </div>
+        <div class="form-check">
+<input
+  class="form-check-input"
+  type="checkbox"
+  [checked]="isSelecionado(service.idServi)"
+  (change)="onCheckboxChange($event, service.idServi)"
+/>
+
+
+
+
+</div>
+
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="services.length === 0">
+    <p>Nenhum serviço disponível no momento.</p>
+  </div>
+</div>
+
+

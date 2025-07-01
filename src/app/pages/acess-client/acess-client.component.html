@@ -1,0 +1,27 @@
+<div class="container mt-4" *ngIf="!loading">
+
+  <h2 *ngIf="client.name">Olá, {{ client.name }}!</h2>
+  <h2 *ngIf="!client.name" class="text-light">Bem-vindo! Por favor, faça seu cadastro:</h2>
+
+  <!-- Formulário de Cadastro -->
+  <div *ngIf="showForm">
+    <form (ngSubmit)="saveClient()">
+      <div class="mb-3">
+        <label class="text-light form-label ">Nome:</label>
+        <input type="text" class="form-control" [(ngModel)]="clientData.name" name="name" required>
+      </div>
+      <div class="mb-3">
+        <label class="text-light form-label">Telefone:</label>
+        <input type="text" class="form-control" [(ngModel)]="clientData.telefone" name="telefone" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Salvar Cadastro</button>
+    </form>
+  </div>
+
+  <!-- Lista de Serviços -->
+
+  <!-- <div *ngIf="!showForm && services.length === 0">
+    <p>Não há serviços disponíveis no momento.</p>
+  </div> -->
+</div>
+

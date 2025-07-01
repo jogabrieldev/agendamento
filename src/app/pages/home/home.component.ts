@@ -9,4 +9,9 @@ import { RouterModule } from '@angular/router';
 })
 export class HomeComponent {
     
+  userName: string = '';
+
+  ngOnInit(): void {
+    this.userName = localStorage.getItem('userName') || '';
+  }
 }

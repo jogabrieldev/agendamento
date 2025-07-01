@@ -4,11 +4,12 @@ import { movimentHours } from '../../../service/registerHours';
 import { movimentService } from '../../../service/registerService';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { NgxMaskDirective , NgxMaskPipe} from 'ngx-mask';
 
 @Component({
   selector: 'app-register',
-  imports: [RouterModule , FormsModule],
-   standalone: true,
+  imports: [RouterModule, FormsModule, NgxMaskDirective],
+  standalone: true,
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })

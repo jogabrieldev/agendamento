@@ -1,49 +1,57 @@
-<div class="d-flex align-items-center justify-content-center vh-100 bg-light">
-  <div class="card shadow p-4" style="max-width: 400px; width: 100%;">
-    <h3 class="text-center mb-4">Acesso ao Sistema</h3>
+<div class="d-flex align-items-center justify-content-center min-vh-100 bg-gradient" style="background: linear-gradient(135deg, #f8f9fa, #e9ecef);">
+  <div class="card shadow-lg p-4 border-0 rounded-4" style="max-width: 380px; width: 90%;">
+    <h3 class="text-center mb-4 fw-bold text-primary">Acesso ao Sistema</h3>
+
     <form (ngSubmit)="onSubmit()" #loginForm="ngForm" novalidate>
+      
+      <!-- Campo Telefone / Email -->
       <div class="mb-3">
-        <label for="phone" class="form-label">Telefone</label>
+        <label for="phone" class="form-label fw-semibold">Telefone ou E-mail</label>
         <input
           type="text"
           id="phone"
-          class="form-control"
+          class="form-control rounded-3"
           [(ngModel)]="telefone"
           name="Telefone"
           required
-          placeholder="Digite seu e-mail"
+          placeholder="Digite seu telefone ou e-mail"
+          autocomplete="username"
+          aria-describedby="phoneHelp"
         />
-        <div *ngIf="loginForm.submitted && !telefone" class="form-text text-danger">
-         nome é obrigatório.
+        <div *ngIf="loginForm.submitted && !telefone" class="invalid-feedback d-block">
+          Telefone ou e-mail é obrigatório.
         </div>
       </div>
 
+      <!-- Campo Senha -->
       <div class="mb-3">
-        <label for="senha" class="form-label">Senha</label>
+        <label for="senha" class="form-label fw-semibold">Senha</label>
         <input
           type="password"
           id="senha"
-          class="form-control"
+          class="form-control rounded-3"
           [(ngModel)]="senha"
           name="senha"
           required
           placeholder="Digite sua senha"
+          autocomplete="current-password"
         />
-        <div *ngIf="loginForm.submitted && !senha" class="form-text text-danger">
+        <div *ngIf="loginForm.submitted && !senha" class="invalid-feedback d-block">
           Senha é obrigatória.
         </div>
       </div>
 
+      <!-- Botão Entrar -->
       <button
         type="submit"
-        class="btn btn-primary w-100"
-        [disabled]="!loginForm.valid"
-      >
+        class="btn btn-primary w-100 py-2 rounded-3 fw-semibold"
+        [disabled]="!loginForm.valid">
         Entrar
       </button>
 
+      <!-- Link Esqueceu Senha -->
       <div class="text-center mt-3">
-        <a href="#" class="text-decoration-none small">Esqueceu sua senha?</a>
+        <a href="#" class="text-decoration-none small text-muted">Esqueceu sua senha?</a>
       </div>
     </form>
   </div>

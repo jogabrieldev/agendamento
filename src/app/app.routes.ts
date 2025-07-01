@@ -6,6 +6,8 @@ import { HomeComponent } from './pages/home/home.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { HoursComponent } from './pages/hours/hours.component';
 import { ListServiceComponent } from './pages/list-service/list-service.component';
+import { AcessClientComponent } from './pages/acess-client/acess-client.component';
+import { AppointmentComponent } from './pages/appointment/appointment.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -13,5 +15,9 @@ export const routes: Routes = [
   {path: 'home' , component: HomeComponent, canActivate: [authGuard]},
   { path: 'register', component: RegisterComponent , canActivate: [authGuard] },
   {path: 'hours' , component: HoursComponent , canActivate:[authGuard]},
-  {path: 'listService' , component:ListServiceComponent , canActivate:[authGuard]}
+  {path: 'listService' , component:ListServiceComponent , canActivate:[authGuard]},
+  {path: 'client/acesso/:token' , component:AcessClientComponent  },
+  {path:"agendamento/:token" , component:AppointmentComponent  }
+
 ];
+

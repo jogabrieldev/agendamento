@@ -1,13 +1,19 @@
 
-.home-container {
-  background: #1e1e2f;
-}
+ .btn-anim {
+    transition: all 0.3s ease;
+  }
 
-.btn-anim {
-  transition: transform 0.2s ease;
-}
+  .btn-anim:hover {
+    transform: translateY(-3px);
+    opacity: 0.9;
+  }
 
-.btn-anim:hover {
-  transform: scale(1.03);
-}
+  .home-container {
+    background: linear-gradient(135deg, #1f1f1f, #2c2c2c);
+    margin-top: 15%;
+  }
 
+  .dashboard {
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
