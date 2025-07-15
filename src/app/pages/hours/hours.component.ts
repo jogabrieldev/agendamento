@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Horario, ListHoursService } from '../../../service/listAllHours';
+import { ToastService } from '../../../service/serviceStyle';
 
 @Component({
   selector: 'app-hours',
@@ -15,7 +16,7 @@ export class HoursComponent implements OnInit {
     
    horarios:Horario[] = []
    
-   constructor(private listHoursService: ListHoursService) {}
+   constructor(private listHoursService: ListHoursService , private toast:ToastService) {}
     
     ngOnInit(): void {
     this.carregarHorarios();
@@ -24,7 +25,6 @@ export class HoursComponent implements OnInit {
     carregarHorarios(): void {
     this.listHoursService.getAllHours().subscribe({
      next: (response) => {
-      console.log('Resposta da API:', response);
       this.horarios = response.horarios;
     },
       error: (error) => {
@@ -39,12 +39,11 @@ export class HoursComponent implements OnInit {
       next: () => {
         // Após deletar com sucesso, atualiza a lista local
         this.horarios = this.horarios.filter(h => h.idDispo !== id);
-        alert('Horário deletado com sucesso!')
-         console.log('Horário deletado com sucesso!');
+        this.toast.success('Horário deletado com sucesso!');
       },
       error: (error) => {
         console.error('Erro ao deletar horário:', error);
-        alert('Erro para deletar horario')
+        this.toast.error('Erro ao deletar horário');
       }
     });
   }
@@ -68,13 +67,13 @@ saveHour(): void {
   this.listHoursService.updateHour(this.selectedHour.idDispo, updatedHour).subscribe({
     next: () => {
       console.log('Horário atualizado com sucesso');
-      alert('Horario atualizado com sucesso')
+      this.toast.success("horario atualizado com sucesso")
       this.carregarHorarios();
       this.selectedHour = null;  // Fecha o formulário de edição
     },
     error: (error) => {
       console.error('Erro ao atualizar horário:', error);
-       alert('Erro a atualizar horario')
+      this.toast.error('Erro ao atualizar horario!')
     }
   });
 }

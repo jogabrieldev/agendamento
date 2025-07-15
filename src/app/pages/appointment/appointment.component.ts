@@ -1,9 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { AppointmentService  , Appointment} from '../../../service/appointmentService';
+import { AppointmentService  , Appointment , horarioDisponivel} from '../../../service/appointmentService';
 import { clientService } from '../../../service/acessClient';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+
+// interface HorarioDisponivel {
+//   idDispo: number;
+//   horario: string;
+// }
+
 
 @Component({
   selector: 'app-appointment',
@@ -11,12 +17,13 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './appointment.component.html',
   styleUrl: './appointment.component.css'
 })
+
 export class AppointmentComponent implements OnInit {
   [x: string]: any;
      
   token:string = ""
   dataSelecionada: string = '';
-  horariosDisponiveis: string[] = [];
+  horariosDisponiveis: horarioDisponivel[] = [];
   horarioEscolhido: string = '';
   precoServico: number = 50.00;  // ex: valor fixo, você pode adaptar
   client: any = null;          // ex: vem do login
@@ -27,6 +34,8 @@ export class AppointmentComponent implements OnInit {
   loading = true;
   servicosSelect: any[] = []
   servicoCheckState: { [key: number]: boolean } = {};
+
+  
 
 
   constructor(private appointmentService: AppointmentService , private clientService: clientService , private route: ActivatedRoute) {}
@@ -45,9 +54,9 @@ export class AppointmentComponent implements OnInit {
     this.clientService.getClientByToken(this.token).subscribe({
       next: (response) => {
          console.log("Dados do cliente recebidos:", response.client)
-        this.client = response.client.idClient;
+        this.client = response.client;
         this.services = response.servico || [];
-        this.loading = false;
+        this.loading = false; 
       },
       error: (error) => {
         console.error('Erro ao carregar dados:', error);
@@ -60,18 +69,22 @@ export class AppointmentComponent implements OnInit {
       this.horariosDisponiveis = [];
       return;
     }
+
+    console.log('horario' , this.horariosDisponiveis)
+  
     this.loadingTimes = true;
+   
     this.appointmentService.getAvailableTimes(this.dataSelecionada)
-      .subscribe({
-        next: (times) => {
-          this.horariosDisponiveis = times;
-          this.loadingTimes = false;
-        },
-        error: () => {
-          alert('Erro ao carregar horários disponíveis');
-          this.loadingTimes = false;
-        }
-      });
+       .subscribe({
+      next: (response) => {
+        this.horariosDisponiveis = response; // já vem filtrado do back
+        this.loadingTimes = false;
+      },
+      error: () => {
+        alert('Erro ao carregar horários disponíveis');
+        this.loadingTimes = false;
+      }
+    });
   }
 
   agendar() {
@@ -89,7 +102,7 @@ export class AppointmentComponent implements OnInit {
       data: this.dataSelecionada,
       horario: this.horarioEscolhido,
       preco: this.precoServico,
-      idClient: this.client,
+      idClient: this.client.idClient,
       idUser: this.idUser,
       idServi: this.servicosSelect,
       status: 'Agendado'

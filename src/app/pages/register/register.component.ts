@@ -4,11 +4,11 @@ import { movimentHours } from '../../../service/registerHours';
 import { movimentService } from '../../../service/registerService';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { NgxMaskDirective , NgxMaskPipe} from 'ngx-mask';
+import { ToastService } from '../../../service/serviceStyle';
 
 @Component({
   selector: 'app-register',
-  imports: [RouterModule, FormsModule, NgxMaskDirective],
+  imports: [RouterModule, FormsModule],
   standalone: true,
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
@@ -22,46 +22,51 @@ export class RegisterComponent {
   descricao = ""
 
   constructor(private hoursUser:movimentHours, // nome corrigido
-    private router: Router , private service: movimentService
+    private router: Router , private service: movimentService,
+    private toast:ToastService
     ){}
+   
+   
+
 
   registerHours(){
      const idUser = localStorage.getItem("userId"); // Recuperando o ID do usuário armazenado após login
 
      console.log('user' , idUser)
     if (!idUser) {
-        alert("Usuário não identificado.");
+       this.toast.error("Usuário não identificado.");
+      
         return;
     }
 
     if (!this.hours) {
-      alert('Por favor, preencha o horário.');
+      this.toast.error('Por favor, preencha o horário.');
      return;
     }
 
 
      const hours = {
          horario: this.hours,
-         status: 'Disponivel',
+         status: 'Disponível',
          idUser:idUser
      }
    console.log('HORARIO' , hours)
      this.hoursUser.registerHours(hours).subscribe({
     next: (res) => {
-      alert('Horário cadastrado com sucesso!');
+      this.toast.success('Horário cadastrado com sucesso');
     },
     error: (err) => {
       console.error('Erro ao cadastrar horário:', err);
 
       if (err.status === 409) {
         // Erro de conflito (horário já existe)
-        alert('Este horário já está cadastrado para este usuário!');
+        this.toast.error('Este horário já está cadastrado para este usuário!');
       } else if (err.status === 400) {
-        alert('Por favor, preencha todos os campos obrigatórios.');
+        this.toast.error('Por favor, preencha todos os campos obrigatórios.');
       } else if (err.status === 404) {
-        alert('Usuário não encontrado.');
+        this.toast.error('Usuário não encontrado.')
       } else {
-        alert('Erro ao cadastrar horário. Tente novamente mais tarde.');
+        this.toast.error('Erro ao cadastrar horário. Tente novamente mais tarde.');
       }
     }
   });
@@ -74,16 +79,18 @@ export class RegisterComponent {
 
      console.log('user' , idUser)
     if (!idUser) {
-        alert("Usuário não identificado.");
+       this.toast.error("Usuário não identificado.");
         return;
     }
 
     if(!this.nomeServico){
-       alert('Coloque o nome so seu serviçõ')
+       this.toast.error('Por favor, preencha o nome do serviço.');
+       return;
     }
     
     if(!this.preco){
-       alert('Precifique seu trabalho')
+      this.toast.error('Por favor, preencha o preço do serviço.');
+      return;
     }
 
      const service = {

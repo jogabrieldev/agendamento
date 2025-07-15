@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 export interface Appointment {
+
   // idAppointment?: number;
   data: string;       // YYYY-MM-DD
   horario: string;    // HH:mm:ss
@@ -15,6 +16,11 @@ export interface Appointment {
   idServi: number[];
 }
 
+export interface horarioDisponivel{
+   idDispo: number;
+   horario: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -23,8 +29,12 @@ export class AppointmentService {
 
   constructor(private http: HttpClient) {}
 
-  getAvailableTimes(data: string): Observable<string[]> {
-    return this.http.get<string[]>(`${this.baseUrl}/horarios-disponiveis/${data}`);
+  getAvailableTimes(data: string) {
+  return this.http.get<horarioDisponivel[]>(`${this.baseUrl}/horarios-disponiveis/${data}`);
+}
+   
+  getAppointments(){
+    return this.http.get<Appointment[]>(`${this.baseUrl}/appointments`);
   }
 
   createAppointment(appointment: Appointment): Observable<Appointment> {

@@ -1,27 +1,57 @@
-<div class="container mt-4" *ngIf="!loading">
+<div class="container mt-5" *ngIf="!loading">
 
-  <h2 *ngIf="client.name">Olá, {{ client.name }}!</h2>
-  <h2 *ngIf="!client.name" class="text-light">Bem-vindo! Por favor, faça seu cadastro:</h2>
+  <h2 *ngIf="client.name" class="text-success fw-bold mb-4">
+    <i class="bi bi-person-check"></i> Olá, {{ client.name }}!
+  </h2>
+  <h2 *ngIf="!client.name" class="text-light fw-bold mb-4">
+    <i class="bi bi-person-plus-fill"></i> Bem-vindo! Faça seu cadastro:
+  </h2>
 
-  <!-- Formulário de Cadastro -->
-  <div *ngIf="showForm">
-    <form (ngSubmit)="saveClient()">
-      <div class="mb-3">
-        <label class="text-light form-label ">Nome:</label>
-        <input type="text" class="form-control" [(ngModel)]="clientData.name" name="name" required>
-      </div>
-      <div class="mb-3">
-        <label class="text-light form-label">Telefone:</label>
-        <input type="text" class="form-control" [(ngModel)]="clientData.telefone" name="telefone" required>
-      </div>
-      <button type="submit" class="btn btn-primary">Salvar Cadastro</button>
-    </form>
+  <!-- Card de cadastro -->
+  <div *ngIf="showForm" class="card shadow-lg border-0 rounded-4 bg-dark text-light">
+    <div class="card-body p-4">
+      <form (ngSubmit)="saveClient()">
+        <!-- Nome -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Nome</label>
+          <div class="input-group">
+            <span class="input-group-text bg-primary text-white">
+              <i class="bi bi-person-fill"></i>
+            </span>
+            <input 
+              type="text" 
+              class="form-control" 
+              [(ngModel)]="clientData.name" 
+              name="name" 
+              placeholder="Digite seu nome completo"
+              required>
+          </div>
+        </div>
+
+        <!-- Telefone -->
+        <div class="mb-4">
+          <label class="form-label fw-semibold">Telefone</label>
+          <div class="input-group">
+            <span class="input-group-text bg-primary text-white">
+              <i class="bi bi-telephone-fill"></i>
+            </span>
+            <input 
+              type="text" 
+              class="form-control" 
+              [(ngModel)]="clientData.telefone" 
+              name="telefone" 
+              placeholder="(00) 00000-0000"
+              required>
+          </div>
+        </div>
+
+        <!-- Botão de salvar -->
+        <button type="submit" class="btn btn-success w-100 py-2 fw-bold">
+          <i class="bi bi-save-fill me-2"></i>Salvar Cadastro
+        </button>
+      </form>
+    </div>
   </div>
 
-  <!-- Lista de Serviços -->
-
-  <!-- <div *ngIf="!showForm && services.length === 0">
-    <p>Não há serviços disponíveis no momento.</p>
-  </div> -->
 </div>
 

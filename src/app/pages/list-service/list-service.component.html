@@ -35,12 +35,12 @@
   <div class="card-body">
     <div class="mb-2">
       <label for="editName" class="form-label">Nome do Serviço</label>
-      <input type="text" id="editName" class="form-control form-control-sm" [(ngModel)]="selectedService.name">
+      <input type="text" id="editName" class="form-control form-control-sm" [(ngModel)]="selectedService.name" readonly>
     </div>
 
     <div class="mb-2">
       <label for="editDescricao" class="form-label">Descrição</label>
-      <textarea id="editDescricao" class="form-control form-control-sm" [(ngModel)]="selectedService.descricao"></textarea>
+      <textarea id="editDescricao" class="form-control form-control-sm" [(ngModel)]="selectedService.descricao" readonly></textarea>
     </div>
 
     <div class="mb-2">

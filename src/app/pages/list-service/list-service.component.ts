@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective } from 'ngx-mask';
+import { ToastService } from '../../../service/serviceStyle';
 
 @Component({
   selector: 'app-list-service',
@@ -16,7 +17,7 @@ export class ListServiceComponent implements OnInit {
 
   services: Service[] = [];
 
-   constructor(private listAllService: ListAllService) {}
+   constructor(private listAllService: ListAllService , private toast:ToastService) {}
 
   ngOnInit(): void {
      this.loadServices();;
@@ -40,10 +41,11 @@ export class ListServiceComponent implements OnInit {
       next: () => {
         // Após deletar com sucesso, atualiza a lista local
         this.services = this.services.filter(s => s.idServi !== id);
-        alert('Serviço deletado com sucesso!')
-        console.log('Serviço deletado com sucesso!');
+        this.toast.success('Serviço deletado com sucesso!');
+     
       },
       error: (error) => {
+        this.toast.error('Erro ao deletar serviço!')
         console.error('Erro ao deletar horário:', error);
       }
     });
@@ -69,7 +71,7 @@ saveService(): void {
   this.listAllService.updateService(this.selectedService.idServi, updatedService).subscribe({
     next: () => {
       console.log('Serviço atualizado com sucesso');
-      alert('Serviço atualizado com sucesso')
+      this.toast.success('Serviço atualizado com sucesso!');
       this.loadServices();
       this.selectedService = null;
     },
