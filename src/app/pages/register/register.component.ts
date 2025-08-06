@@ -70,7 +70,7 @@ export class RegisterComponent {
       }
     }
   });
-  }
+};
 
 
   registerService(){
@@ -103,22 +103,23 @@ export class RegisterComponent {
 
      this.service.registerService(service).subscribe({
          next:(res)=>{
-          
-              alert('serviço cadastrado com success' )
+           this.toast.success('Serviço cadastrado com sucesso')
          },
           
           error: (err) => {
-      console.error('Erro ao cadastrar service:', err);
+       console.error('Erro ao cadastrar service:', err);
 
       if (err.status === 409) {
-        // Erro de conflito (horário já existe)
-        alert('Este serviço já está cadastrado para este usuário!');
+      
+        this.toast.error('Este serviço já está cadastrado para este usuário! Tente outro');
       } else if (err.status === 400) {
-        alert('Por favor, preencha todos os campos obrigatórios.');
+        this.toast.error("'Por favor, preencha todos os campos obrigatórios.'")
+
       } else if (err.status === 404) {
-        alert('Usuário não encontrado.');
+        this.toast.error('Usuário não encontrado.')
       } else {
-        alert('Erro ao cadastrar Serviço. Tente novamente mais tarde.');
+        this.toast.error('Erro ao cadastrar Serviço. Tente novamente mais tarde.')
+    
       }
     }
 

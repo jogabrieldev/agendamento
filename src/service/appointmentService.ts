@@ -4,11 +4,11 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 export interface Appointment {
+// client: any;
 
-  // idAppointment?: number;
-  data: string;       // YYYY-MM-DD
-  horario: string;    // HH:mm:ss
-  status?: string;    // 'Agendado', etc.
+  data: string;       
+  horario: string;    
+  status?: string;   
   nota?: string;
   preco: number;
   idClient: number;
@@ -25,7 +25,7 @@ export interface horarioDisponivel{
   providedIn: 'root'
 })
 export class AppointmentService {
-  private baseUrl = 'http://localhost:3000'; // ajuste a URL do backend
+  private baseUrl = 'http://localhost:3000'; 
 
   constructor(private http: HttpClient) {}
 

@@ -5,10 +5,10 @@
       <h5 class="mb-0">Lista de Horários Cadastrados</h5>
     </div>
 
-    <div class="card-body">
+    <div class="card-body tableHours">
       <div class="table-responsive" *ngIf="horarios.length > 0; else semHorarios">
-        <table class="table table-hover align-middle">
-          <thead class="table-light">
+        <table class="table table-hover align-middle ">
+          <thead class="table-dark">
             <tr>
               <th>Horário</th>
               <th>Status</th>
@@ -20,10 +20,10 @@
               <td>{{ horario.horario }}</td>
               <td>{{ horario.status }}</td>
               <td>
-                <button class="btn btn-sm btn-outline-primary me-2" (click)="openEditForm(horario)">
+                <button class="btn btn-sm btn-primary me-2 " (click)="openEditForm(horario)">
                   <i class="bi bi-pencil-square"></i> Editar
                 </button>
-                <button class="btn btn-sm btn-outline-danger" (click)="deleteHours(horario.idDispo)" >
+                <button class="btn btn-sm btn-danger " (click)="deleteHours(horario.idDispo)" >
                   <i class="bi bi-trash"></i> Excluir
                 </button>
               </td>
@@ -40,8 +40,8 @@
       </ng-template>
     </div>
   </div>
-<div class="d-flex justify-content-center mt-4">
-     <button  class="btn btn-outline-light w-50 mt-3 btn-anim" routerLink="/home">
+   <div class="d-flex justify-content-center mt-4">
+     <button  class="btn btn-light w-50 mt-3 btn-anim" routerLink="/home">
       Voltar
   </button>
 </div>
@@ -51,7 +51,7 @@
 <!-- Fundo escuro (overlay) -->
 <div class="edit-overlay d-flex justify-content-center align-items-center" *ngIf="selectedHour">
   <!-- Modal de edição -->
-  <div class="edit-popup card shadow p-4">
+  <div class="edit-popup card shadow p-4 popUpEditHours">
 
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h5 class="mb-0">Editando: {{ selectedHour.horario }}</h5>
@@ -71,9 +71,9 @@
      </select>
     </div>
 
-    <div class="d-flex justify-content-end">
-      <button class="btn btn-success me-2" (click)="saveHour()">Salvar</button>
-      <button class="btn btn-secondary" (click)="selectedHour = null">Cancelar</button>
+    <div class="d-flex justify-content-center">
+      <button class="btn btn-success me-2 w-25" (click)="saveHour()">Salvar</button>
+      <button class="btn btn-secondary w-25" (click)="selectedHour = null">Cancelar</button>
     </div>
 
   </div>

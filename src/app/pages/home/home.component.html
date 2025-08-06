@@ -1,5 +1,6 @@
 
-<div class="container py-5 text-center home-container rounded-4 shadow-lg text-white">
+<div class="container py-5 text-center home-container rounded-4 shadow-lg text-white h-100 ">
+
   <h1 class="mb-5 fw-bold text-white-emphasis">
     <i class="bi bi-person-bounding-box me-2"></i>
      Bem-vindo, <strong>{{ userName }}</strong> à página inicial
@@ -12,17 +13,17 @@
       </a>
     </div>
     <div class="col-10 col-md-4">
-      <a routerLink="/listService" class="btn btn-warning w-100 py-3 fs-5 rounded-4 shadow-lg btn-anim text-dark">
+      <a routerLink="/listService" class="btn btn-primary w-100 py-3 fs-5 rounded-4 shadow-lg btn-anim text-white">
         <i class="bi bi-card-list me-2"></i> Meus Serviços
       </a>
     </div>
     <div class="col-10 col-md-4">
-      <a routerLink="/hours" class="btn btn-info w-100 py-3 fs-5 rounded-4 shadow-lg btn-anim text-white">
+      <a routerLink="/hours" class="btn btn-primary w-100 py-3 fs-5 rounded-4 shadow-lg btn-anim text-white">
         <i class="bi bi-clock me-2"></i> Horários
       </a>
     </div>
     <div class="col-10 col-md-4">
-      <a routerLink="/acessClient" class="btn btn-success w-100 py-3 fs-5 rounded-4 shadow-lg btn-anim text-white">
+      <a routerLink="/acessClient" class="btn btn-primary w-100 py-3 fs-5 rounded-4 shadow-lg btn-anim text-white">
         <i class="bi bi-people-fill me-2"></i> Cliente
       </a>
     </div>
@@ -35,9 +36,8 @@
   <ul class="list-group list-group-flush">
     <li
       *ngFor="let item of appointments"
-      class="list-group-item bg-transparent text-light d-flex justify-content-between border-bottom border-secondary"
-    >
-      <span>{{ item.client.name }}</span>
+      class="list-group-item bg-transparent text-light d-flex justify-content-between border-bottom border-secondary">
+      <!-- <span>{{ item.client.name }}</span> -->
       <small>
         {{ (item.data) }}, {{ item.horario }}:00
       </small>

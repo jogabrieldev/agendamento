@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { serviceAuthUser } from '../../../service/serviceAuth';
+import { ToastService } from '../../../service/serviceStyle';
 
 @Component({
   standalone: true,
@@ -17,8 +18,9 @@ export class LoginComponent {
   senha = '';
 
   constructor(
-    private authService: serviceAuthUser, // nome corrigido
-    private router: Router // injetando o Router para redirecionamento
+    private authService: serviceAuthUser, 
+    private router: Router ,
+    private toast: ToastService
   ) {}
 
   onSubmit() {
@@ -29,31 +31,28 @@ export class LoginComponent {
 
     this.authService.authenticaterUser(user).subscribe({
       next: (res) => {
-        console.log('Usuário autenticado com sucesso', res);
-
+      
         const tokenRecebidoDoBackend = res.token; 
         if(tokenRecebidoDoBackend){
            this.authService.login(tokenRecebidoDoBackend);
-           console.log('Resposta do login:', res);
-            console.log('res.user:', res.user);
-            console.log('res.user.idUser:', res.user?.idUser);
-
+           
            localStorage.setItem("userId", res.user?.idUser);
            localStorage.setItem('userName' , res.user?.name)
-           console.log('Nome salvo no localStorage:', localStorage.getItem('userName'));
+           
+           this.toast.success("Login com sucesso!")
           this.router.navigate(['/home']);
 
-          alert('Login com sucesso');
+         
         }else{
-            alert('Token não recebido');
+            this.toast.error("Erro em fazer login! verifique credencial")
         }
         
       },
       error: (err) => {
         console.error('Erro ao autenticar usuário', err);
-        alert('Erro no login, tente novamente.');
+        this.toast.error("Erro em fazer login! verifique credencial")
       }
     });
-  }
-}
+  };
+};
 
