@@ -1,59 +1,49 @@
 # Agendamento
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.12.
 
-## Development server
+**Componentes**
 
-To start a local development server, run:
+** pages **
 
-```bash
-ng serve
-```
+# home
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+*Pagina renderiza a pagina principal para o usuaro para controla Horarios, registrar horarios , controlar serviços , cadastrar serviços 
 
-## Code scaffolding
+* uso O (APP ROUTES) para que o usuario tenha acesso a outras paginas para poder fazer suas interações
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+# login
 
-```bash
-ng generate component component-name
-```
+* pagina onde o (USER) vai se authenticar para ter acesso a home e poder fazer suas interações 
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+# register
 
-```bash
-ng generate --help
-```
+* tela onde o (USER) authenticado vai cadastrar seus serviços e seus horarios para controle
 
-## Building
+# client register
 
-To build the project run:
+*tela onde o cliente sem (token) vai acessar para se cadastrar no sistema e poder ter acesso ao agendamento
 
-```bash
-ng build
-```
+# access-client
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+*tela dee acesso ao cliente , tela onde vai ser acessada por um link para o (CLIENT)  se authenticar e após ter sucessso  ir para a pagina agendamento
 
-## Running unit tests
+# list service
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+* listagem dos serviços cadastrados 
 
-```bash
-ng test
-```
+* daquele usuario que esta logado
 
-## Running end-to-end tests
+* controle para editar e excluir
 
-For end-to-end (e2e) testing, run:
+# hours
 
-```bash
-ng e2e
-```
+* listagem, de horarios
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+* controle para editar e excluir
 
-## Additional Resources
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+**service**
+
+* tem minhas conexões aos endpoints do meu back-end atraves de metodos eu exporto para usar nos meus arquivos de logica
+
+* tenho serviço de estilo também Toatify

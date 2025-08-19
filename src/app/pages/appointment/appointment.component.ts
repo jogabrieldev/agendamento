@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { AppointmentService  , Appointment , horarioDisponivel} from '../../../service/appointmentService';
-import { clientService } from '../../../service/acessClient';
+import { Client , ClientResponse  } from '../../../service/clientService';
+import { ListAllService } from '../../../service/listAllService';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
-// interface HorarioDisponivel {
-//   idDispo: number;
-//   horario: string;
-// }
 
+interface HorariosResponse {
+  horarios: horarioDisponivel[];
 
+}
 @Component({
   selector: 'app-appointment',
   imports: [CommonModule , FormsModule],
@@ -25,8 +25,9 @@ export class AppointmentComponent implements OnInit {
   dataSelecionada: string = '';
   horariosDisponiveis: horarioDisponivel[] = [];
   horarioEscolhido: string = '';
-  precoServico: number = 50.00;  // ex: valor fixo, você pode adaptar
-  client: any = null;          // ex: vem do login
+  precoServico: number = 5;  // ex: valor fixo, você pode adaptar
+  clientAppointment: any;     
+      // ex: vem do login
   idUser: number = 1;            // cabeleireiro responsável, ou pode ser fixo
   services: any[] = [];           // serviço escolhido, pode vir de um select
   loadingTimes = false;
@@ -38,46 +39,81 @@ export class AppointmentComponent implements OnInit {
   
 
 
-  constructor(private appointmentService: AppointmentService , private clientService: clientService , private route: ActivatedRoute) {}
+  constructor(private appointmentService: AppointmentService , private route: ActivatedRoute , private client:Client , private servicos:ListAllService) {}
    
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const tokenParam = params.get('token');
       if (tokenParam) {
         this.token = tokenParam;
-        this.loadClientAndServices();
+
+            console.log('Token capturado:', this.token);
+         this.loadClientAndServices();
       }
     });
-  }
 
-  loadClientAndServices() {
-    this.clientService.getClientByToken(this.token).subscribe({
-      next: (response) => {
-         console.log("Dados do cliente recebidos:", response.client)
-        this.client = response.client;
-        this.services = response.servico || [];
-        this.loading = false; 
-      },
-      error: (error) => {
-        console.error('Erro ao carregar dados:', error);
-        this.loading = false;
-      }
-    });
-  }
-  buscarHorarios() {
-    if (!this.dataSelecionada) {
-      this.horariosDisponiveis = [];
-      return;
-    }
 
-    console.log('horario' , this.horariosDisponiveis)
-  
-    this.loadingTimes = true;
+  }
+ 
+
+
+
+
+loadClientAndServices() {
+  this.client.getAcessToken(this.token).subscribe({
+    next: (response: ClientResponse) => {
+      console.log("Dados do cliente recebidos:", response);
    
-    this.appointmentService.getAvailableTimes(this.dataSelecionada)
-       .subscribe({
-      next: (response) => {
-        this.horariosDisponiveis = response; // já vem filtrado do back
+      this.clientAppointment = response.client;
+
+       console.log("cliente" ,  this.clientAppointment)
+       this.loadServices();
+      this.loading = false; 
+    },
+    error: (error) => {
+      console.error('Erro ao carregar dados:', error);
+      this.loading = false;
+    }
+  });
+}
+
+loadServices(): void {
+  if (!this.clientAppointment || !this.clientAppointment.idUser) {
+    console.warn("Cliente não encontrado ou sem idUser");
+    return;
+  }
+
+  const barberId = this.clientAppointment.idUser;
+
+  this.servicos.getServicesByBarber(barberId).subscribe({
+    next: (res) => {
+      console.log("Serviços do barbeiro:", res.service);
+      this.services = res.service; // popula no HTML
+    },
+    error: (err) => {
+      console.error("Erro ao buscar serviços:", err);
+    }
+  });
+}
+
+
+
+buscarHorarios() {
+  if (!this.dataSelecionada) {
+    this.horariosDisponiveis = [];
+    return;
+  }
+
+  console.log('horario', this.horariosDisponiveis);
+
+  this.loadingTimes = true;
+
+  this.appointmentService.getAvailableTimes(this.dataSelecionada)
+    .subscribe({
+      next: (response: horarioDisponivel[]) => {
+
+        console.log(response)
+        this.horariosDisponiveis = response; // response is the array
         this.loadingTimes = false;
       },
       error: () => {
@@ -85,7 +121,7 @@ export class AppointmentComponent implements OnInit {
         this.loadingTimes = false;
       }
     });
-  }
+}
 
   agendar() {
     if (!this.horarioEscolhido || !this.dataSelecionada) {
@@ -102,7 +138,7 @@ export class AppointmentComponent implements OnInit {
       data: this.dataSelecionada,
       horario: this.horarioEscolhido,
       preco: this.precoServico,
-      idClient: this.client.idClient,
+      idClient: this.clientAppointment.idClient,
       idUser: this.idUser,
       idServi: this.servicosSelect,
       status: 'Agendado'

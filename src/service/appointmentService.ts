@@ -1,7 +1,7 @@
 // src/app/services/appointment.service.ts
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Observer } from 'rxjs';
 
 export interface Appointment {
 // client: any;
@@ -29,9 +29,11 @@ export class AppointmentService {
 
   constructor(private http: HttpClient) {}
 
-  getAvailableTimes(data: string) {
+// ...existing code...
+getAvailableTimes(data: string): Observable<horarioDisponivel[]> {
   return this.http.get<horarioDisponivel[]>(`${this.baseUrl}/horarios-disponiveis/${data}`);
 }
+// ...existing code...
    
   getAppointments(){
     return this.http.get<Appointment[]>(`${this.baseUrl}/appointments`);

@@ -1,0 +1,32 @@
+<div class="d-flex justify-content-center align-items-center vh-100">
+  <div class="card shadow-lg p-4 rounded-4" style="max-width: 400px; width: 100%;">
+    <div class="text-center mb-3">
+      <i class="bi bi-phone-fill fs-1 text-primary"></i>
+      <h4 class="mt-2">Autenticação</h4>
+      <p class="text-muted">Informe seu telefone para continuar</p>
+    </div>
+
+    <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label for="telefone" class="form-label">Telefone</label>
+        <input
+          type="tel"
+          id="telefone"
+          class="form-control"
+          formControlName="telefone"
+          placeholder="(00) 00000-0000"
+          required
+        />
+        <div *ngIf="authForm.get('telefone')?.invalid && authForm.get('telefone')?.touched"
+             class="text-danger small">
+          Informe um telefone válido
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100" [disabled]="authForm.invalid">
+        <i class="bi bi-arrow-right-circle me-2"></i> Enviar
+      </button>
+    </form>
+  </div>
+</div>
+

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AcessClientComponent } from './acess-client.component';
+import { ClientRegisterComponent } from './client-register.component';
 
-describe('AcessClientComponent', () => {
-  let component: AcessClientComponent;
-  let fixture: ComponentFixture<AcessClientComponent>;
+describe('ClientRegisterComponent', () => {
+  let component: ClientRegisterComponent;
+  let fixture: ComponentFixture<ClientRegisterComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AcessClientComponent]
+      imports: [ClientRegisterComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AcessClientComponent);
+    fixture = TestBed.createComponent(ClientRegisterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

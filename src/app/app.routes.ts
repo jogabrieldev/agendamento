@@ -6,8 +6,9 @@ import { HomeComponent } from './pages/home/home.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { HoursComponent } from './pages/hours/hours.component';
 import { ListServiceComponent } from './pages/list-service/list-service.component';
-import { AcessClientComponent } from './pages/acess-client/acess-client.component';
+import { AccessClientComponent } from './pages/access-client/access-client.component';
 import { AppointmentComponent } from './pages/appointment/appointment.component';
+import { ClientRegisterComponent } from './pages/client-register/client-register.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -16,8 +17,11 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent , canActivate: [authGuard] },
   {path: 'hours' , component: HoursComponent , canActivate:[authGuard]},
   {path: 'listService' , component:ListServiceComponent , canActivate:[authGuard]},
-  {path: 'client/acesso/:token' , component:AcessClientComponent  },
-  {path:"agendamento/:token" , component:AppointmentComponent  }
-
+  {path:"client" , component:ClientRegisterComponent},
+  {path:"cliente/cadastro/:token" , component:ClientRegisterComponent },
+  {path:"agendamento" , component:AppointmentComponent  },
+  {path:"agendamento/:token" , component:AppointmentComponent  },
+  {path:"client/acesso/:token" , component:AccessClientComponent},
+  {path:"client/acesso" , component:AccessClientComponent}
 ];
 
