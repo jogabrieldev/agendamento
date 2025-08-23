@@ -19,13 +19,13 @@ export class HomeComponent {
   ngOnInit(): void {
     this.userName = localStorage.getItem('userName') || '';
 
-    this.appointmentService.getAppointments().subscribe({
-      next: (data) => {
-        this.appointments = data;
-      },
-      error: (err) => {
-        console.error('Erro ao buscar agendamentos', err);
-      }
-    });
+    // this.appointmentService.getAppointments().subscribe({
+    //   next: (data) => {
+    //     this.appointments = data;
+    //   },
+    //   error: (err) => {
+    //     console.error('Erro ao buscar agendamentos', err);
+    //   }
+    // });
   }
 }

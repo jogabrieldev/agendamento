@@ -5,7 +5,7 @@ import { ListAllService } from '../../../service/listAllService';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { ToastService } from '../../../service/serviceStyle';
 
 interface HorariosResponse {
   horarios: horarioDisponivel[];
@@ -39,7 +39,7 @@ export class AppointmentComponent implements OnInit {
   
 
 
-  constructor(private appointmentService: AppointmentService , private route: ActivatedRoute , private client:Client , private servicos:ListAllService) {}
+  constructor(private appointmentService: AppointmentService , private route: ActivatedRoute , private client:Client , private servicos:ListAllService , private toast:ToastService) {}
    
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -117,7 +117,7 @@ buscarHorarios() {
         this.loadingTimes = false;
       },
       error: () => {
-        alert('Erro ao carregar horários disponíveis');
+        this.toast.error('Erro ao carregar horários disponíveis')
         this.loadingTimes = false;
       }
     });
@@ -125,12 +125,12 @@ buscarHorarios() {
 
   agendar() {
     if (!this.horarioEscolhido || !this.dataSelecionada) {
-      alert('Selecione data e horário!');
+      this.toast.error('Selecione data e horário!')
       return;
     }
 
       if(this.servicosSelect.length === 0) {
-    alert('Selecione pelo menos um serviço!');
+        this.toast.error('Selecione pelo menos um serviço!')
     return;
   }
 
@@ -152,13 +152,15 @@ buscarHorarios() {
     this.appointmentService.createAppointment(novoAgendamento)
       .subscribe({
         next: () => {
-          alert('Agendamento realizado com sucesso!');
+          this.toast.success('Agendamento realizado com sucesso!')
+          
           this.horarioEscolhido = '';
           this.horariosDisponiveis = [];
           this.loadingSubmit = false;
         },
         error: (err) => {
-          alert(err.error?.error || 'Erro ao realizar agendamento');
+          this.toast.error(err.error?.error || 'Erro ao realizar agendamento')
+  
           this.loadingSubmit = false;
         }
       });
@@ -176,10 +178,9 @@ toggleServicoSelecionado(serviceId: number | undefined, checked: boolean) {
   }
 
   if (checked) {
-    // Apenas esse ID deve ser enviado
+
     this.servicosSelect = [Number(serviceId)];
 
-    // Atualiza visualmente os checkboxes
     this.servicoCheckState = {};
     this.servicoCheckState[serviceId] = true;
   } else {
@@ -191,7 +192,7 @@ toggleServicoSelecionado(serviceId: number | undefined, checked: boolean) {
 
 
 onCheckboxChange(event: Event, serviceId: number) {
-  console.log('service' ,serviceId)
+
   const checked = (event.target as HTMLInputElement).checked;
   this.toggleServicoSelecionado(serviceId, checked);
 }

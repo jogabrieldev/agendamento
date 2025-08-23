@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Horario {
+  dataIndisponivel: any;
   idDispo: number;
   horario: string;
   status: string;
@@ -15,6 +16,7 @@ export interface Horario {
 export class ListHoursService {
 
   private apiUrl = 'http://localhost:3000/api/disponi';
+  private Url = "http://localhost:3000";
 
   constructor(private http: HttpClient) {}
 
@@ -26,8 +28,18 @@ export class ListHoursService {
   return this.http.delete(`${this.apiUrl}/${id}`, { withCredentials: true });
 }
 
- updateHour(id: number, updatedHour: { horario: string, status: string }): Observable<any> {
+getIndisponiveis(idUser: string) {
+  return this.http.get<{
+    horarios: any[];indisponiveis:any[]
+}>(`${this.Url}/api/indisponible/${idUser}`);
+}
+
+ updateHour(id: number, updatedHour: { horario: string, bodyStatus: string }): Observable<any> {
   return this.http.put(`${this.apiUrl}/${id}`, updatedHour, { withCredentials: true });
 }
+
+ indisponible(payload:{status:string , horario:string , dataIndisponivel:string , idUser:string | any}){
+   return this.http.post(`${this.Url}/api/indispinible` , payload)
+ }
 
 }

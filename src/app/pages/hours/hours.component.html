@@ -32,7 +32,6 @@
         </table>
       </div>
 
-      <!-- Caso não haja horários -->
       <ng-template #semHorarios>
         <div class="text-center text-muted py-4">
           Nenhum horário cadastrado.
@@ -40,6 +39,12 @@
       </ng-template>
     </div>
   </div>
+  <div class="d-flex justify-content-center mt-4">
+  <button class="btn btn-warning w-50 mt-3 btn-anim" (click)="openIndisponiveis()">
+    <i class="bi bi-eye-fill"></i> Ver Horários Indisponíveis
+  </button>
+</div>
+
    <div class="d-flex justify-content-center mt-4">
      <button  class="btn btn-light w-50 mt-3 btn-anim" routerLink="/home">
       Voltar
@@ -71,6 +76,11 @@
      </select>
     </div>
 
+    <div class="mb-3">
+       <label for="" class="form-label">Data Indisponível</label>
+       <input type="date" id="dataIndi" [(ngModel)]="selectedHour.dataIndisponivel" class="form-control">
+    </div>
+
     <div class="d-flex justify-content-center">
       <button class="btn btn-success me-2 w-25" (click)="saveHour()">Salvar</button>
       <button class="btn btn-secondary w-25" (click)="selectedHour = null">Cancelar</button>
@@ -78,6 +88,49 @@
 
   </div>
 </div>
+
+<!-- Modal de horários indisponíveis -->
+<div class="modal fade" id="modalIndisponiveis" tabindex="-1" aria-labelledby="modalIndisponiveisLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content shadow-lg rounded-4">
+      <div class="modal-header bg-dark text-white">
+        <h5 class="modal-title" id="modalIndisponiveisLabel">
+          <i class="bi bi-calendar-x-fill me-2"></i> Horários Indisponíveis
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="indisponiveis.length > 0; else semIndisponiveis">
+          <table class="table table-hover align-middle">
+            <thead class="table-dark">
+              <tr>
+                <th>Horário</th>
+                <th>Data</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let ind of indisponiveis">
+                <td>{{ ind.horario }}</td>
+                <td>{{ ind.dataIndisponivel | date:'dd/MM/yyyy' }}</td>
+                <td>{{ ind.status }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <ng-template #semIndisponiveis>
+          <div class="text-center text-muted py-4">
+            Nenhum horário indisponível encontrado.
+          </div>
+        </ng-template>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
 

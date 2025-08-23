@@ -47,13 +47,17 @@ export class RegisterComponent {
 
      const hours = {
          horario: this.hours,
-         status: 'Disponível',
+         bodyStatus: 'Disponível',
          idUser:idUser
      }
    console.log('HORARIO' , hours)
      this.hoursUser.registerHours(hours).subscribe({
     next: (res) => {
+      
       this.toast.success('Horário cadastrado com sucesso');
+
+      this.hours = '';
+
     },
     error: (err) => {
       console.error('Erro ao cadastrar horário:', err);
@@ -104,6 +108,11 @@ export class RegisterComponent {
      this.service.registerService(service).subscribe({
          next:(res)=>{
            this.toast.success('Serviço cadastrado com sucesso')
+
+           this.nomeServico = ""
+           this.preco = ""
+           this.descricao = ""
+           this.duracao = ""
          },
           
           error: (err) => {

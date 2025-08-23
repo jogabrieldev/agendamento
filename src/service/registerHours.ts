@@ -12,7 +12,7 @@ export class movimentHours {
  
   constructor(private http: HttpClient , private router:Router) {}
 
-  registerHours(newHours: { horario: string, status: string, idUser: number | string }): Observable<any> {
+  registerHours(newHours: { horario: string, bodyStatus: string, idUser: number | string }): Observable<any> {
   return this.http.post(`${this.URL}`, newHours, {
     withCredentials: true
   });

@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Horario, ListHoursService } from '../../../service/listAllHours';
 import { ToastService } from '../../../service/serviceStyle';
+import * as bootstrap from 'bootstrap';
+
 
 @Component({
   selector: 'app-hours',
@@ -15,6 +17,7 @@ import { ToastService } from '../../../service/serviceStyle';
 export class HoursComponent implements OnInit {
     
    horarios:Horario[] = []
+   indisponiveis: any[] = [];
    
    constructor(private listHoursService: ListHoursService , private toast:ToastService) {}
     
@@ -55,31 +58,64 @@ openEditForm(horario: Horario): void {
   this.selectedHour = { ...horario };
 }
 
+openIndisponiveis(): void {
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      this.toast.error("Usuário não encontrado!");
+      return;
+    }
+
+    this.listHoursService.getIndisponiveis(userId).subscribe({
+      next: (response) => {
+        console.log(response)
+        this.indisponiveis = response.horarios;
+        const modalElement = document.getElementById('modalIndisponiveis');
+        if (modalElement) {
+          const modal = new bootstrap.Modal(modalElement);
+          modal.show();
+        } else {
+          this.toast.error("Modal de indisponíveis não encontrado!");
+        }
+      },
+      error: (error) => {
+        console.error('erro', error)
+        console.error('Erro ao carregar horários indisponíveis:', error);
+        this.toast.error("Erro ao carregar indisponíveis!");
+      }
+    });
+  }
 
 saveHour(): void {
   if (!this.selectedHour) return;
 
-  const updatedHour = {
-    horario: this.selectedHour.horario,
-    status: this.selectedHour.status
-  };
+  // Se marcado como indisponível → grava apenas na tabela de indisponíveis
+  if (this.selectedHour.status === "Indisponível" && this.selectedHour.dataIndisponivel) {
+    const payload = {
+      status: this.selectedHour.status,
+      horario: this.selectedHour.horario,
+      dataIndisponivel: this.selectedHour.dataIndisponivel,
+      idUser: localStorage.getItem("userId") // ajuste conforme pega o usuário logado
+    };
 
-  this.listHoursService.updateHour(this.selectedHour.idDispo, updatedHour).subscribe({
-    next: () => {
-      console.log('Horário atualizado com sucesso');
-      this.toast.success("horario atualizado com sucesso")
-      this.carregarHorarios();
-      this.selectedHour = null;  // Fecha o formulário de edição
-    },
-    error: (error) => {
-      console.error('Erro ao atualizar horário:', error);
-      this.toast.error('Erro ao atualizar horario!')
-    }
-  });
+    this.listHoursService.indisponible(payload).subscribe({
+      next: () => {
+        this.toast.success("Indisponibilidade registrada!");
+        this.carregarHorarios();
+        this.selectedHour = null; // Fecha o modal
+      },
+      error: (error) => {
+        console.error('Erro ao registrar indisponibilidade:', error);
+         if (error.status === 400 && error.error?.message) {
+          this.toast.error(error.error.message); // mostra a msg vinda do back-end
+        } else {
+         this.toast.error("Erro ao registrar indisponibilidade!");
+        }
+        this.toast.error("Erro ao registrar indisponibilidade!");
+      }
+    });
+  } else {
+    this.toast.error("Para salvar, selecione status 'Indisponível' e informe uma data.");
+  }
 }
-
-
-
-
 
 }
