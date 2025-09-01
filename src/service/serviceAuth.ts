@@ -14,7 +14,7 @@ export class serviceAuthUser {
 }
   constructor(private http: HttpClient , private router:Router) {}
 
-  authenticaterUser(userData: { telefone: string|number;  senha: string|number }): Observable<any> {
+  authenticaterUser(userData: { phoneUser: string|number;  senha: string|number }): Observable<any> {
     return this.http.post(`http://localhost:3000/authenticate`, userData , {
       withCredentials: true
     });

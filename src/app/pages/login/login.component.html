@@ -1,25 +1,26 @@
 <div class="d-flex align-items-center justify-content-center min-vh-100 bg-gradient" style="background: linear-gradient(135deg, #f8f9fa, #e9ecef);">
   <div class="card shadow-lg p-4 border-0 rounded-4" style="max-width: 380px; width: 90%;">
     <h3 class="text-center mb-4 fw-bold text-primary">Acesso ao Sistema</h3>
-
+      
     <form (ngSubmit)="onSubmit()" #loginForm="ngForm" novalidate>
       
       <!-- Campo Telefone / Email -->
       <div class="mb-3">
-        <label for="phone" class="form-label fw-semibold">Telefone ou E-mail</label>
+        <label for="phone" class="form-label fw-semibold">Telefone</label>
         <input
           type="text"
           id="phone"
           class="form-control rounded-3"
           [(ngModel)]="telefone"
           name="Telefone"
+          mask="00000-0000"
           required
-          placeholder="Digite seu telefone ou e-mail"
+          placeholder="Digite seu telefone EX: 992222222"
           autocomplete="username"
           aria-describedby="phoneHelp"
         />
         <div *ngIf="loginForm.submitted && !telefone" class="invalid-feedback d-block">
-          Telefone ou e-mail é obrigatório.
+          Telefone é obrigatório.
         </div>
       </div>
 

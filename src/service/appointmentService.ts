@@ -29,12 +29,11 @@ export class AppointmentService {
 
   constructor(private http: HttpClient) {}
 
-// ...existing code...
-getAvailableTimes(data: string): Observable<horarioDisponivel[]> {
+
+ getAvailableTimes(data: string): Observable<horarioDisponivel[]> {
   return this.http.get<horarioDisponivel[]>(`${this.baseUrl}/horarios-disponiveis/${data}`);
-}
-// ...existing code...
-   
+ }
+
   getAppointments(){
     return this.http.get<Appointment[]>(`${this.baseUrl}/appointments`);
   }

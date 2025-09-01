@@ -38,6 +38,21 @@ export class ClientRegisterComponent {
         return
      }
 
+      let phone = this.cliente.phone.replace(/\D/g, ""); // remove caracteres não numéricos
+
+      // Verifica se começou com 9 e tem 8 dígitos (celular típico)
+    if (phone.length === 9 && phone.startsWith("9")) {
+     phone = "62" + phone; // adiciona DDD 62
+      } else if (phone.length === 10 && phone.startsWith("9")) {
+       // caso cliente já digite 62 + 9, remove 9 extra se precisar
+      phone = phone; 
+  } else {
+    this.toasty.error("Número de telefone inválido!");
+    return;
+  }
+
+  this.cliente.phone = phone;
+
      console.log("cliente" , this.cliente)
 
       this.clientService.registerClient(this.cliente).subscribe({

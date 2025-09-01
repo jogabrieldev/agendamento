@@ -48,33 +48,37 @@
     <i class="bi bi-person-circle me-2"></i> Olá, {{ clientAppointment.name }}! Escolha um serviço:
   </h3>
 
-  <div *ngIf="services.length > 0" class="bg-dark">
-    <ul class="list-group">
-      <li *ngFor="let service of services" class="list-group-item d-flex justify-content-between align-items-center  flex-column flex-md-row">
-        <div class="mb-2 mb-md-0">
-         <strong class="d-block">{{ service.name }}</strong>
-      <small class="text-muted">
-        <i class="bi bi-cash-coin me-1"></i> R$ {{ service.price }} |
-        <i class="bi bi-clock me-1"></i> {{ service.duracao }} min
-      </small>
-    <p class="mb-0">{{ service.descricao }}</p>
+  <div *ngIf="services.length > 0" class="p-3 rounded border gap">
+  <ul class="list-group">
+    <li
+      *ngFor="let service of services"
+      class="list-group-item d-flex align-items-center"
+    >
+      <!-- checkbox maior à esquerda -->
+       <div class="form-check form-switch me-3 flex-shrink-0">
+        <input
+          class="form-check-input big-switch"
+          type="checkbox"
+          role="switch"
+          [checked]="isSelecionado(service.idServi)"
+          (change)="onCheckboxChange($event, service.idServi)"
+          id="service-{{ service.idServi }}"
+        />
+      </div>
 
-        </div>
-        <div class="form-check ms-md-3">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            [checked]="isSelecionado(service.idServi)"
-            (change)="onCheckboxChange($event, service.idServi)"
-            id="service-{{ service.idServi }}"
-          />
-          <label class="form-check-label" [for]="'service-' + service.idServi">
-            Selecionar
-          </label>
-        </div>
-      </li>
-    </ul>
-  </div>
+      <!-- informações do serviço -->
+      <div class="flex-grow-1">
+        <h5 class="mb-1">{{ service.name }}</h5>
+        <p class="mb-1 text-muted">
+          <i class="bi bi-cash-coin me-1"></i> R$ {{ service.price }} |
+          <i class="bi bi-clock me-1"></i> {{ service.duracao }} min
+        </p>
+        <p class="mb-0">{{ service.descricao }}</p>
+      </div>
+    </li>
+  </ul>
+</div>
+
 
   <div *ngIf="services.length === 0" class="alert alert-secondary mt-3">
     <i class="bi bi-info-circle-fill me-2"></i>

@@ -134,9 +134,11 @@ buscarHorarios() {
     return;
   }
 
+   const horarioObj = this.horariosDisponiveis.find(h => h.idDispo === Number(this.horarioEscolhido));
+
     const novoAgendamento: Appointment = {
       data: this.dataSelecionada,
-      horario: this.horarioEscolhido,
+      horario: horarioObj ? horarioObj.horario : '',
       preco: this.precoServico,
       idClient: this.clientAppointment.idClient,
       idUser: this.idUser,

@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { serviceAuthUser } from '../../../service/serviceAuth';
 import { ToastService } from '../../../service/serviceStyle';
+import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 
 @Component({
   standalone: true,
   selector: 'app-login',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule , NgxMaskDirective, ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -25,7 +26,7 @@ export class LoginComponent {
 
   onSubmit() {
     const user = {
-      telefone: this.telefone,
+      phoneUser: this.telefone.replace(/\D/g, ""),
       senha: this.senha
     };
 
