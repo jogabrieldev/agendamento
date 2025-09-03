@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from './prodService';
 
 export interface Service {
   idServi: number;
@@ -16,24 +17,25 @@ export interface Service {
 })
 export class ListAllService {
   private apiUrl = 'http://localhost:3000/api/service';
+  private apiUrlProd = environment.apiUrl + 'api/service';
 
   constructor(private http: HttpClient) {}
 
   getAllServices(): Observable<{ service: Service[] }> {
-    return this.http.get<{ service: Service[] }>(this.apiUrl, { withCredentials: true });
+    return this.http.get<{ service: Service[] }>(this.apiUrlProd, { withCredentials: true });
   }
 
   getServicesByBarber(barberId: number): Observable<{ service: Service[] }> {
-  return this.http.get<{ service: Service[] }>(`${this.apiUrl}?barberId=${barberId}`, { withCredentials: true });
+  return this.http.get<{ service: Service[] }>(`${this.apiUrlProd}?barberId=${barberId}`, { withCredentials: true });
 }
 
 
   deleteService(id: number): Observable<any> {
-  return this.http.delete(`${this.apiUrl}/${id}`, { withCredentials: true });
+  return this.http.delete(`${this.apiUrlProd}/${id}`, { withCredentials: true });
   }
 
   updateService(id: number, updatedService: { name: string, descricao: string, duracao: number, price: string | number }): Observable<any> {
-  return this.http.put(`${this.apiUrl}/${id}`, updatedService, { withCredentials: true });
+  return this.http.put(`${this.apiUrlProd}/${id}`, updatedService, { withCredentials: true });
 }
 
 }
