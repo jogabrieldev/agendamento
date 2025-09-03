@@ -19,7 +19,7 @@ export class serviceAuthUser {
    private URL_PROD = environment.apiUrl
 
   authenticaterUser(userData: { phoneUser: string|number;  senha: string|number }): Observable<any> {
-    return this.http.post(`${this.URL_PROD}`, userData , {
+    return this.http.post(`${this.URL_PROD}/authenticate`, userData , {
       withCredentials: true
     });
   }
