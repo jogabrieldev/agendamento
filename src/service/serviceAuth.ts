@@ -14,7 +14,7 @@ export class serviceAuthUser {
 }
   constructor(private http: HttpClient , private router:Router) {}
   
-  localhost = 'http://localhost:3000/'
+   localhost = 'http://localhost:3000/'
    private URL_PROD = environment.apiUrl
 
   authenticaterUser(userData: { phoneUser: string|number;  senha: string|number }): Observable<any> {
@@ -37,6 +37,6 @@ export class serviceAuthUser {
 
   logout(){
     localStorage.removeItem('token')
-    this.router.navigate(['/user'])
+    this.router.navigate(['/login'])
   }
 }
