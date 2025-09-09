@@ -31,9 +31,19 @@ export class serviceAuthUser {
     return localStorage.getItem('token')
   }
 
-  isLoggedIn(){
-    return !! this.getToken()
+  isLoggedIn(): boolean {
+  const token = this.getToken();
+  if (!token) return false;
+
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const isExpired = payload.exp * 1000 < Date.now();
+    return !isExpired;
+  } catch (e) {
+    return false;
   }
+}
+
 
   logout(){
     localStorage.removeItem('token')
