@@ -17,7 +17,7 @@ export interface Service {
 })
 export class ListAllService {
   private apiUrl = 'http://localhost:3000/api/service';
-  private apiUrlProd = environment.apiUrl + 'api/service';
+  private apiUrlProd = environment.apiUrl + '/api/service';
 
   constructor(private http: HttpClient) {}
 

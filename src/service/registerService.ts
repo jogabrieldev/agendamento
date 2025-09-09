@@ -10,7 +10,7 @@ import { environment } from './prodService';
 export class movimentService {
   
   private URL = 'http://localhost:3000/service'
-  private URL_PROD = environment.apiUrl + 'service'
+  private URL_PROD = environment.apiUrl + '/service'
   constructor(private http: HttpClient , private router:Router) {}
 
   registerService(newService: { name:string, price:number, idUser: number | string , duracao:string , descricao:string }): Observable<any> {

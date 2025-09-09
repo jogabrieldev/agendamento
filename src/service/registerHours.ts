@@ -10,7 +10,7 @@ import { environment } from './prodService';
 export class movimentHours {
 
    private URL = 'http://localhost:3000/api/disponi'
-  private URL_PROD = environment.apiUrl + 'api/disponi'
+  private URL_PROD = environment.apiUrl + '/api/disponi'
   constructor(private http: HttpClient , private router:Router) {}
 
   registerHours(newHours: { horario: string, bodyStatus: string, idUser: number | string }): Observable<any> {

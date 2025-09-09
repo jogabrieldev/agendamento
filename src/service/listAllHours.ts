@@ -18,7 +18,7 @@ export class ListHoursService {
   private apiUrl = 'http://localhost:3000/api/disponi';
   private Url = "http://localhost:3000";
   
-  private apiUrlProd = environment.apiUrl + 'api/disponi';
+  private apiUrlProd = environment.apiUrl + '/api/disponi';
   private UrlProd = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
