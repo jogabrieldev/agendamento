@@ -10,6 +10,8 @@ import { AccessClientComponent } from './pages/access-client/access-client.compo
 import { AppointmentComponent } from './pages/appointment/appointment.component';
 import { ClientRegisterComponent } from './pages/client-register/client-register.component';
 
+import { GenerateQrcodeComponent } from './pages/generate-qrcode/generate-qrcode.component';
+
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -22,6 +24,8 @@ export const routes: Routes = [
   {path:"agendamento" , component:AppointmentComponent  },
   {path:"agendamento/:token" , component:AppointmentComponent  },
   {path:"client/acesso/:token" , component:AccessClientComponent},
-  {path:"client/acesso" , component:AccessClientComponent}
+  {path:"client/acesso" , component:AccessClientComponent},
+
+  {path:'qrcode' , component:GenerateQrcodeComponent}
 ];
 
