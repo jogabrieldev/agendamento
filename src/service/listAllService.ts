@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from './prodService';
+import { serviceAuthUser } from './serviceAuth';
+import { Router } from '@angular/router';
 
 export interface Service {
   idServi: number;
@@ -16,26 +18,50 @@ export interface Service {
   providedIn: 'root'
 })
 export class ListAllService {
-  private apiUrl = 'http://localhost:3000/api/service';
-  private apiUrlProd = environment.apiUrl + '/api/service';
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = 'http://localhost:3000/api/service';
+  // private apiUrlProd = environment.apiUrl + '/api/service';
+
+  private URL:string = ""
+  constructor(private http: HttpClient , private token:serviceAuthUser , private router:Router) {
+    if (environment.production) {
+      this.URL = environment.apiUrl + '/api/service'; // Produção
+    } else {
+      this.URL = `${this.apiUrl}`; // Desenvolvimento
+    }
+  }
+
+ 
 
   getAllServices(): Observable<{ service: Service[] }> {
-    return this.http.get<{ service: Service[] }>(this.apiUrlProd, { withCredentials: true });
+    const token = this.token.getToken()
+    if(!token){
+       this.router.navigate(['/login'])
+    }
+    const headers = {Authorization: `Bearer ${token}` }
+    return this.http.get<{ service: Service[] }>(this.URL, { headers});
   }
 
   getServicesByBarber(barberId: number): Observable<{ service: Service[] }> {
-  return this.http.get<{ service: Service[] }>(`${this.apiUrlProd}?barberId=${barberId}`, { withCredentials: true });
+  return this.http.get<{ service: Service[] }>(`${this.URL}?barberId=${barberId}`, { withCredentials: true });
 }
 
 
   deleteService(id: number): Observable<any> {
-  return this.http.delete(`${this.apiUrlProd}/${id}`, { withCredentials: true });
+    const token = this.token.getToken()
+    if(!token){
+       this.router.navigate(['/login'])
+    }
+
+    const headers = {Authorization: `Bearer ${token}` }
+  return this.http.delete(`${this.URL}/${id}`, { headers });
   }
 
   updateService(id: number, updatedService: { name: string, descricao: string, duracao: number, price: string | number }): Observable<any> {
-  return this.http.put(`${this.apiUrlProd}/${id}`, updatedService, { withCredentials: true });
+    const token = this.token.getToken()
+    if(!token){this.router.navigate(['/login'])}
+    const headers = {Authorization: `Bearer ${token}`}
+    return this.http.put(`${this.URL}/${id}`, updatedService, { headers });
 }
 
 }

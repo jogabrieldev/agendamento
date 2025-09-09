@@ -15,24 +15,21 @@ import { ToastService } from '../../../service/serviceStyle';
 })
 export class RegisterComponent {
     
-  hours = ''
-  nomeServico = ''
-  preco = ""
-  duracao = ""
-  descricao = ""
+  hours:string = ''
+  nomeServico:string = ''
+  preco:string = ""
+  duracao:string = ""
+  descricao:string = ""
 
-  constructor(private hoursUser:movimentHours, // nome corrigido
+  constructor(private hoursUser:movimentHours, 
     private router: Router , private service: movimentService,
     private toast:ToastService
     ){}
    
-   
-
-
+  
   registerHours(){
-     const idUser = localStorage.getItem("userId"); // Recuperando o ID do usuário armazenado após login
+     const idUser = localStorage.getItem("userId"); 
 
-     console.log('user' , idUser)
     if (!idUser) {
        this.toast.error("Usuário não identificado.");
       
@@ -50,7 +47,6 @@ export class RegisterComponent {
          bodyStatus: 'Disponível',
          idUser:idUser
      }
-   console.log('HORARIO' , hours)
      this.hoursUser.registerHours(hours).subscribe({
     next: (res) => {
       
@@ -61,9 +57,11 @@ export class RegisterComponent {
     },
     error: (err) => {
       console.error('Erro ao cadastrar horário:', err);
-
-      if (err.status === 409) {
-        // Erro de conflito (horário já existe)
+      
+      if(err.status === 402){
+        this.toast.error('Valor passado como horario não e valido')
+      }else if (err.status === 409) {
+       
         this.toast.error('Este horário já está cadastrado para este usuário!');
       } else if (err.status === 400) {
         this.toast.error('Por favor, preencha todos os campos obrigatórios.');
@@ -81,7 +79,6 @@ export class RegisterComponent {
         
     const idUser = localStorage.getItem("userId"); 
 
-     console.log('user' , idUser)
     if (!idUser) {
        this.toast.error("Usuário não identificado.");
         return;

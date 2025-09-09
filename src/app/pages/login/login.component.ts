@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { serviceAuthUser } from '../../../service/serviceAuth';
 import { ToastService } from '../../../service/serviceStyle';
-import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
+import { NgxMaskDirective} from 'ngx-mask';
 
 @Component({
   standalone: true,

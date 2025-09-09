@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Horario, ListHoursService } from '../../../service/listAllHours';
-import { ToastService } from '../../../service/serviceStyle';
+import { ToastService , ConfirmService} from '../../../service/serviceStyle';
 import * as bootstrap from 'bootstrap';
 
 
@@ -19,7 +19,7 @@ export class HoursComponent implements OnInit {
    horarios:Horario[] = []
    indisponiveis: any[] = [];
    
-   constructor(private listHoursService: ListHoursService , private toast:ToastService) {}
+   constructor(private listHoursService: ListHoursService , private toast:ToastService ,private confirm:ConfirmService) {}
     
     ngOnInit(): void {
     this.carregarHorarios();
@@ -37,10 +37,17 @@ export class HoursComponent implements OnInit {
   }
 
   deleteHours(id: number): void {
-  if (confirm('Tem certeza que deseja excluir este horário?')) {
-    this.listHoursService.deleteHours(id).subscribe({
+
+    this.confirm.confirm(
+    'Excluir esse horario',
+    'Deseja realmente excluir este HORARIO?',
+    'Sim, excluir',
+    'Não'
+  ).then((confirmed) => {
+    if (confirmed) {
+      this.listHoursService.deleteHours(id).subscribe({
       next: () => {
-        // Após deletar com sucesso, atualiza a lista local
+     
         this.horarios = this.horarios.filter(h => h.idDispo !== id);
         this.toast.success('Horário deletado com sucesso!');
       },
@@ -49,7 +56,12 @@ export class HoursComponent implements OnInit {
         this.toast.error('Erro ao deletar horário');
       }
     });
-  }
+    } else {
+      console.log('Usuário cancelou.');
+      return
+      
+    }
+  });
 }
 
 selectedHour: Horario | null = null;
@@ -67,7 +79,6 @@ openIndisponiveis(): void {
 
     this.listHoursService.getIndisponiveis(userId).subscribe({
       next: (response) => {
-        console.log(response)
         this.indisponiveis = response.horarios;
         const modalElement = document.getElementById('modalIndisponiveis');
         if (modalElement) {

@@ -21,11 +21,8 @@ export const routes: Routes = [
   {path: 'listService' , component:ListServiceComponent , canActivate:[authGuard]},
   {path:"client" , component:ClientRegisterComponent},
   {path:"cliente/cadastro/:token" , component:ClientRegisterComponent },
-  {path:"agendamento" , component:AppointmentComponent  },
   {path:"agendamento/:token" , component:AppointmentComponent  },
   {path:"client/acesso/:token" , component:AccessClientComponent},
-  {path:"client/acesso" , component:AccessClientComponent},
-
   {path:'qrcode' , component:GenerateQrcodeComponent}
 ];
 

@@ -2,19 +2,19 @@
     background: linear-gradient(135deg, #dee2e6, #f1f3f5);
   }
 
-  /* Card com efeito de elevação e bordas suaves */
+ 
   .card {
     backdrop-filter: blur(3px);
     border-radius: 1.5rem;
   }
 
-  /* Inputs com foco mais evidente */
+
   .form-control:focus {
     border-color: #0d6efd;
     box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
   }
 
-  /* Botão com efeito de hover mais elegante */
+ 
   .btn-primary {
     transition: all 0.3s ease-in-out;
   }
@@ -24,13 +24,12 @@
     box-shadow: 0 4px 10px rgba(13, 110, 253, 0.3);
   }
 
-  /* Link de esqueci senha com hover sutil */
+
   a.text-muted:hover {
     color: #0d6efd !important;
     text-decoration: underline;
   }
 
-  /* Responsividade adicional em telas muito pequenas */
   @media (max-width: 375px) {
     .card {
       padding: 1.5rem 1rem;
