@@ -88,25 +88,24 @@ openIndisponiveis(): void {
 saveHour(): void {
   if (!this.selectedHour) return;
 
-  // Se marcado como indisponível → grava apenas na tabela de indisponíveis
   if (this.selectedHour.status === "Indisponível" && this.selectedHour.dataIndisponivel) {
     const payload = {
       status: this.selectedHour.status,
       horario: this.selectedHour.horario,
       dataIndisponivel: this.selectedHour.dataIndisponivel,
-      idUser: localStorage.getItem("userId") // ajuste conforme pega o usuário logado
+      idUser: localStorage.getItem("userId") 
     };
 
     this.listHoursService.indisponible(payload).subscribe({
       next: () => {
         this.toast.success("Indisponibilidade registrada!");
         this.carregarHorarios();
-        this.selectedHour = null; // Fecha o modal
+        this.selectedHour = null; 
       },
       error: (error) => {
         console.error('Erro ao registrar indisponibilidade:', error);
          if (error.status === 400 && error.error?.message) {
-          this.toast.error(error.error.message); // mostra a msg vinda do back-end
+          this.toast.error(error.error.message); 
         } else {
          this.toast.error("Erro ao registrar indisponibilidade!");
         }
