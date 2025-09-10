@@ -10,20 +10,13 @@ import { environment } from './prodService';
 
 
 export class GetQrcode {
+  private apiUrlLocal = 'http://localhost:3000/qr';
+  private apiUrlProd = environment.apiUrl + '/qr';
+  private useUrl = environment.production ? this.apiUrlProd : this.apiUrlLocal;
 
-  private useUrlProd:string = ""
-   private apiUrl = 'http://localhost:3000/qr';
-     constructor(private http: HttpClient ){
-       if(environment.production){
-          this.useUrlProd = environment.apiUrl + "/qr"
-       }else{
-        this.useUrlProd = `${this.apiUrl}` 
-       }
-     }
+  constructor(private http: HttpClient) {}
 
-    
-
-       getQRCode(): Observable<{ qr: string }> {
-    return this.http.get<{ qr: string }>(this.useUrlProd);
+  getQRCode(): Observable<{ qr: string | null }> {
+    return this.http.get<{ qr: string | null }>(this.useUrl);
   }
 }

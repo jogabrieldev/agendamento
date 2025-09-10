@@ -24,16 +24,20 @@ export class GenerateQrcodeComponent implements OnInit {
   loadQRCode() {
   this.whatsappService.getQRCode().subscribe({
     next: (res) => {
-      this.qrCode = res.qr; 
+      if(res.qr){
+         this.qrCode = res.qr; 
+      }else{
+          setTimeout(() => this.loadQRCode(), 3000);
+      }
+      
     },
     error: (err) => {
-      if (err.status === 404) {
-        console.warn('QR ainda não disponível, tentando novamente...');
-        setTimeout(() => this.loadQRCode(), 3000); // tenta de novo em 3s
-      } else {
         this.toast.error('Erro ao buscar QRCODE para conexão!')
         console.error('Erro ao buscar QR Code:', err);
-      }
+   
+        setTimeout(() => this.loadQRCode(), 3000); 
+     
+        
     }
   });
 }
