@@ -2,14 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GetQrcode } from '../../../service/getQrcodeService';
 import { ToastService } from '../../../service/serviceStyle';
+import {QRCodeComponent} from 'angularx-qrcode';
 
 @Component({
   selector: 'app-generate-qrcode',
-  imports: [CommonModule],
+  standalone:true,
+  imports: [CommonModule , QRCodeComponent],
   templateUrl: './generate-qrcode.component.html',
   styleUrl: './generate-qrcode.component.css'
 })
 export class GenerateQrcodeComponent implements OnInit {
+
       qrCode: string | null = null;
 
   constructor(private whatsappService: GetQrcode , private toast:ToastService) {}

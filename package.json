@@ -19,6 +19,7 @@
     "@angular/router": "^19.2.0",
     "@sweetalert2/ngx-sweetalert2": "^14.0.0",
     "@types/toastify-js": "^1.12.4",
+    "angularx-qrcode": "^19.0.0",
     "bootstrap": "^5.3.6",
     "ngx-mask": "^19.0.7",
     "ngx-toastr": "^19.0.0",

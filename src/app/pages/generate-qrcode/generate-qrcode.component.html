@@ -1,6 +1,6 @@
 <div class="qrcode-container">
   <ng-container *ngIf="qrCode; else loading">
-    <img [src]="qrCode" alt="QR Code do WhatsApp" width="300" height="300"/>
+    <qrcode [qrdata]="qrCode" [width]="300" [errorCorrectionLevel]="'M'"></qrcode>
   </ng-container>
 
   <ng-template #loading>
