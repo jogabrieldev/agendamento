@@ -19,9 +19,8 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent , canActivate: [authGuard] },
   {path: 'hours' , component: HoursComponent , canActivate:[authGuard]},
   {path: 'listService' , component:ListServiceComponent , canActivate:[authGuard]},
-  {path:"client" , component:ClientRegisterComponent},
-  {path:"cliente/cadastro/" , component:ClientRegisterComponent },
-  {path:"/agendamento/:token" , component:AppointmentComponent  },
+  {path:"cliente/cadastro" , component:ClientRegisterComponent },
+  {path:"agendamento/:token" , component:AppointmentComponent  },
   {path:"client/acesso/:token" , component:AccessClientComponent},
   {path:'qrcode' , component:GenerateQrcodeComponent}
 ];
