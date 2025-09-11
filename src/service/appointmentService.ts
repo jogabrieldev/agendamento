@@ -2,6 +2,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
+import { environment } from './prodService';
 
 export interface Appointment {
 // client: any;
@@ -25,20 +26,29 @@ export interface horarioDisponivel{
   providedIn: 'root'
 })
 export class AppointmentService {
-  private baseUrl = 'http://localhost:3000'; 
 
-  constructor(private http: HttpClient) {}
+  private useUrl:string = ""
+  private baseUrl:string = 'http://localhost:3000'; 
+
+  
+  constructor(private http: HttpClient) {
+      if(environment.production){
+         this.useUrl = `${environment.apiUrl}`
+      }else{
+        this.useUrl = `${this.baseUrl}`
+      }
+  }
 
 
  getAvailableTimes(data: string): Observable<horarioDisponivel[]> {
-  return this.http.get<horarioDisponivel[]>(`${this.baseUrl}/horarios-disponiveis/${data}`);
+  return this.http.get<horarioDisponivel[]>(`${this.useUrl}/horarios-disponiveis/${data}`);
  }
 
   getAppointments(){
-    return this.http.get<Appointment[]>(`${this.baseUrl}/appointments`);
+    return this.http.get<Appointment[]>(`${this.useUrl}/appointments`);
   }
 
   createAppointment(appointment: Appointment): Observable<Appointment> {
-    return this.http.post<Appointment>(`${this.baseUrl}/appointments`, appointment);
+    return this.http.post<Appointment>(`${this.useUrl}/appointments`, appointment);
   }
 }
