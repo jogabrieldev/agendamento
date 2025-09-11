@@ -9,7 +9,7 @@ import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-hours',
-   standalone: true,
+  standalone: true,
   imports: [RouterModule ,FormsModule , CommonModule],
   templateUrl: './hours.component.html',
   styleUrl: './hours.component.css'

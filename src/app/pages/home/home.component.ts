@@ -5,6 +5,7 @@ import { Appointment, AppointmentService } from '../../../service/appointmentSer
 
 @Component({
   selector: 'app-home',
+  standalone:true,
   imports: [RouterModule , CommonModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']

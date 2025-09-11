@@ -8,7 +8,7 @@ import { ToastService , ConfirmService } from '../../../service/serviceStyle';
 
 @Component({
   selector: 'app-list-service',
-   standalone: true,
+  standalone: true,
   imports: [RouterModule, CommonModule, FormsModule, NgxMaskDirective],
   templateUrl: './list-service.component.html',
   styleUrl: './list-service.component.css'
