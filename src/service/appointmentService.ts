@@ -2,7 +2,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
-import { environment } from './prodService';
+import { environment } from '../environments/environment';
 
 export interface Appointment {
 // client: any;
@@ -28,15 +28,9 @@ export interface horarioDisponivel{
 export class AppointmentService {
 
   private useUrl:string = ""
-  private baseUrl:string = 'http://localhost:3000'; 
 
-  
   constructor(private http: HttpClient) {
-      if(environment.production){
-         this.useUrl = `${environment.apiUrl}`
-      }else{
-        this.useUrl = `${this.baseUrl}`
-      }
+      this.useUrl = `${environment.apiUrl}`
   }
 
 

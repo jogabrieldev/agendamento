@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from './prodService';
+import { environment } from '../environments/environment';
 
 
 @Injectable({
@@ -10,9 +10,8 @@ import { environment } from './prodService';
 
 
 export class GetQrcode {
-  private apiUrlLocal = 'http://localhost:3000/qr';
-  private apiUrlProd = environment.apiUrl + '/qr';
-  private useUrl = environment.production ? this.apiUrlProd : this.apiUrlLocal;
+
+  private useUrl = `${environment.apiUrl + '/qr'}`;
 
   constructor(private http: HttpClient) {}
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from './prodService';
+import { environment } from '../environments/environment';
 import {serviceAuthUser} from './serviceAuth'
 import { Router } from '@angular/router';
 export interface Horario {
@@ -22,13 +22,9 @@ export class ListHoursService {
 
 
   constructor(private http: HttpClient , private token:serviceAuthUser , private route:Router) {
-      if (environment.production) {
-      this.apiUrl = environment.apiUrl + '/api/disponi';
-      this.baseUrl = environment.apiUrl + '/api/indisponible';
-    } else {
-      this.apiUrl = 'http://localhost:3000/api/disponi';
-      this.baseUrl = 'http://localhost:3000/api/indisponible';
-    }
+    this.apiUrl = `${environment.apiUrl}/api/disponi`;
+    this.baseUrl = `${environment.apiUrl}/api/indisponible`;
+
   }
 
   

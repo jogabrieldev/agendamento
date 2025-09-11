@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from './prodService';
+import { environment } from '../environments/environment';
 import { serviceAuthUser } from './serviceAuth';
 import { Router } from '@angular/router';
 
@@ -22,13 +22,10 @@ export class ListAllService {
   private apiUrl = 'http://localhost:3000/api/service';
   // private apiUrlProd = environment.apiUrl + '/api/service';
 
-  private URL:string = ""
+  private URL:string = environment.apiUrl + '/api/service'
+
   constructor(private http: HttpClient , private token:serviceAuthUser , private router:Router) {
-    if (environment.production) {
-      this.URL = environment.apiUrl + '/api/service'; // Produção
-    } else {
-      this.URL = `${this.apiUrl}`; // Desenvolvimento
-    }
+    
   }
 
  

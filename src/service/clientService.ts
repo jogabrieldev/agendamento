@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from './prodService';
+import { environment } from '../environments/environment';
 
 
 export interface ClientResponse {
@@ -34,20 +34,12 @@ export interface Service {
 export class Client {
       
   private useUrl:string = ""
-  private apiUrl = "http://localhost:3000"
-  private URL_PROD = environment.apiUrl
-
-    constructor(private http: HttpClient) {
-      
-       if(environment.production){
-          this.useUrl = `${this.URL_PROD}`
-       }else{
-         this.useUrl = `${this.apiUrl}`
-       }
+ 
+  constructor(private http: HttpClient) { 
+       this.useUrl = `${environment.apiUrl}`
     }
    
    
-        
     registerClient(client:{name:string , phone:number | string}){
       return this.http.post<ClientResponse>(`${this.useUrl}/client`, client )
     }
