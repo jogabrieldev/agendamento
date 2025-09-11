@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastService } from '../../../service/serviceStyle';
-import { Client } from '../../../service/clientService';
+import { Client , ClientResponse } from '../../../service/clientService';
 @Component({
   selector: 'app-client-register',
   imports: [CommonModule , FormsModule],
@@ -20,7 +20,12 @@ export class ClientRegisterComponent {
   
   token:string |  null = null
 
-  constructor(private route:ActivatedRoute, private router:Router, private toasty:ToastService, private clientService:Client){}
+  constructor(
+    private route:ActivatedRoute,
+     private router:Router, 
+     private toasty:ToastService, 
+     private clientService:Client ,
+    ){}
    
   ngOnInit():void{
      this.route.params.subscribe(params => {
@@ -38,13 +43,12 @@ export class ClientRegisterComponent {
         return
      }
 
-      let phone = this.cliente.phone.replace(/\D/g, ""); // remove caracteres não numéricos
-
-      // Verifica se começou com 9 e tem 8 dígitos (celular típico)
+      let phone = this.cliente.phone.replace(/\D/g, ""); 
+    
     if (phone.length === 9 && phone.startsWith("9")) {
      phone = "62" + phone; // adiciona DDD 62
       } else if (phone.length === 10 && phone.startsWith("9")) {
-       // caso cliente já digite 62 + 9, remove 9 extra se precisar
+     
       phone = phone; 
   } else {
     this.toasty.error("Número de telefone inválido!");
@@ -55,12 +59,14 @@ export class ClientRegisterComponent {
 
      console.log("cliente" , this.cliente)
 
-      this.clientService.registerClient(this.cliente).subscribe({
-    next: (res) => {
+     this.clientService.registerClient(this.cliente).subscribe({
+      next: (res:ClientResponse) => {
       console.log(res)
 
       this.toasty.success("Cliente cadastrado com sucesso!");
-      this.router.navigate([`agendamento/${this.token}`]);  // direcionar para o agendamento
+
+       const token = res.client.tokenAcess;
+      this.router.navigate([`agendamento/${token}`]);  
     },
     error: (err) => {
       console.error(err);

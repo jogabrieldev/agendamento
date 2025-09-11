@@ -25,7 +25,7 @@ export class GenerateQrcodeComponent implements OnInit {
   this.whatsappService.getQRCode().subscribe({
     next: (res) => {
       if(res.qr){
-         this.qrCode = res.qr; 
+         this.qrCode = res.qr?.trim(); 
       }else{
           setTimeout(() => this.loadQRCode(), 3000);
       }

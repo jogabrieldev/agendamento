@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from './prodService';
 
 
 export interface ClientResponse {
@@ -10,7 +11,7 @@ export interface ClientResponse {
     name: string;
     telefone: string;
     idUser: number;
-    token:string
+    tokenAcess:string
     createdAt:any;
     updatedAt:any;
   };
@@ -31,21 +32,32 @@ export interface Service {
   providedIn: 'root'
 })
 export class Client {
-     
-    constructor(private http: HttpClient ) {}
+      
+  private useUrl:string = ""
+  private apiUrl = "http://localhost:3000"
+  private URL_PROD = environment.apiUrl
 
-    private apiUrl = "http://localhost:3000"
+    constructor(private http: HttpClient) {
+      
+       if(environment.production){
+          this.useUrl = `${this.URL_PROD}`
+       }else{
+         this.useUrl = `${this.apiUrl}`
+       }
+    }
+   
+   
         
     registerClient(client:{name:string , phone:number | string}){
-      return this.http.post(`${this.apiUrl}/client`, client )
+      return this.http.post<ClientResponse>(`${this.useUrl}/client`, client )
     }
      
     getAcessToken(token: string): Observable<ClientResponse> {
-    return this.http.get<ClientResponse>(`${this.apiUrl}/client/acesso/${token}`);
+    return this.http.get<ClientResponse>(`${this.useUrl}/client/acesso/${token}`);
     }
     
     getClientByPhone(phone: string): Observable<any> {
-  return this.http.get<any>(`${this.apiUrl}/client/phone/${phone}`);
+  return this.http.get<any>(`${this.useUrl}/client/phone/${phone}`);
 }
 
 
