@@ -43,7 +43,12 @@ export class ListAllService {
   }
 
   getServicesByBarber(barberId: number): Observable<{ service: Service[] }> {
-  return this.http.get<{ service: Service[] }>(`${this.URL}?barberId=${barberId}`, { withCredentials: true });
+    const token = this.token.getToken()
+    if(!token){
+       this.router.navigate(['/login'])
+    }
+    const headers = {Authorization: `Bearer ${token}` }
+  return this.http.get<{ service: Service[] }>(`${this.URL}?barberId=${barberId}`, { headers });
 }
 
 
