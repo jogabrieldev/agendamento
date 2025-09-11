@@ -7,10 +7,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '../../../service/serviceStyle';
 
-interface HorariosResponse {
-  horarios: horarioDisponivel[];
 
-}
 @Component({
   selector: 'app-appointment',
   imports: [CommonModule , FormsModule],
@@ -18,6 +15,7 @@ interface HorariosResponse {
   styleUrl: './appointment.component.css'
 })
 
+// PROCESSO DE AGENDAMENTO PEGANDO HORARIOS VALIDADOS E AGENDANDO COM SERVIÇOS E HORARIOS DO BARBEIRO
 export class AppointmentComponent implements OnInit {
   [x: string]: any;
      
@@ -25,11 +23,10 @@ export class AppointmentComponent implements OnInit {
   dataSelecionada: string = '';
   horariosDisponiveis: horarioDisponivel[] = [];
   horarioEscolhido: string = '';
-  precoServico: number = 5;  // ex: valor fixo, você pode adaptar
+  precoServico: number = 5;  
   clientAppointment: any;     
-      // ex: vem do login
-  idUser: number = 1;            // cabeleireiro responsável, ou pode ser fixo
-  services: any[] = [];           // serviço escolhido, pode vir de um select
+  idUser: number = 1;            
+  services: any[] = [];           
   loadingTimes = false;
   loadingSubmit = false;
   loading = true;
@@ -47,26 +44,19 @@ export class AppointmentComponent implements OnInit {
       if (tokenParam) {
         this.token = tokenParam;
 
-            console.log('Token capturado:', this.token);
          this.loadClientAndServices();
       }
     });
 
-
   }
  
-
-
-
 
 loadClientAndServices() {
   this.client.getAcessToken(this.token).subscribe({
     next: (response: ClientResponse) => {
-      console.log("Dados do cliente recebidos:", response);
-   
+    
       this.clientAppointment = response.client;
 
-       console.log("cliente" ,  this.clientAppointment)
        this.loadServices();
       this.loading = false; 
     },
@@ -104,15 +94,12 @@ buscarHorarios() {
     return;
   }
 
-  console.log('horario', this.horariosDisponiveis);
-
   this.loadingTimes = true;
 
   this.appointmentService.getAvailableTimes(this.dataSelecionada)
     .subscribe({
       next: (response: horarioDisponivel[]) => {
 
-        console.log(response)
         this.horariosDisponiveis = response; // response is the array
         this.loadingTimes = false;
       },
@@ -123,11 +110,21 @@ buscarHorarios() {
     });
 }
 
-  agendar() {
+ agendar() {
     if (!this.horarioEscolhido || !this.dataSelecionada) {
       this.toast.error('Selecione data e horário!')
       return;
     }
+
+    const hoje = new Date();
+      hoje.setHours(0,0,0,0);
+      const dataSelecionada = new Date(this.dataSelecionada);
+      dataSelecionada.setHours(0,0,0,0);
+
+     if (dataSelecionada < hoje) {
+       this.toast.error('Não é possível agendar para datas passadas!');
+      return;
+     }
 
       if(this.servicosSelect.length === 0) {
         this.toast.error('Selecione pelo menos um serviço!')
@@ -147,8 +144,7 @@ buscarHorarios() {
     };
 
     console.log('agenda' , novoAgendamento)
-    console.log('Serviço selecionado:', this.servicosSelect);
-
+  
 
     this.loadingSubmit = true;
     this.appointmentService.createAppointment(novoAgendamento)
@@ -162,16 +158,15 @@ buscarHorarios() {
         },
         error: (err) => {
           this.toast.error(err.error?.error || 'Erro ao realizar agendamento')
-  
           this.loadingSubmit = false;
         }
       });
   }
   
 
-  getCheckedValue(event: Event): boolean {
+ getCheckedValue(event: Event): boolean {
   return (event.target as HTMLInputElement).checked;
-}
+ }
 
 toggleServicoSelecionado(serviceId: number | undefined, checked: boolean) {
   if (!serviceId) {
@@ -190,8 +185,6 @@ toggleServicoSelecionado(serviceId: number | undefined, checked: boolean) {
     this.servicoCheckState[serviceId] = false;
   }
 }
-
-
 
 onCheckboxChange(event: Event, serviceId: number) {
 
