@@ -127,5 +127,4 @@ saveHour(): void {
     this.toast.error("Para salvar, selecione status 'Indisponível' e informe uma data.");
   }
 }
-
 }
