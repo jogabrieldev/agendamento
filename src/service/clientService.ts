@@ -16,6 +16,7 @@ export interface ClientResponse {
     updatedAt:any;
   };
   servico: Service[];
+  token:String
 }
 
 export interface Service {

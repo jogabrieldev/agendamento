@@ -15,6 +15,7 @@
           class="form-control"
           formControlName="telefone"
           placeholder="(00) 00000-0000"
+          mask="(00) 00000-0000"
           required
         />
         <div *ngIf="authForm.get('telefone')?.invalid && authForm.get('telefone')?.touched"

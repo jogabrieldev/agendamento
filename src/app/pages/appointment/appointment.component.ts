@@ -30,13 +30,14 @@ export class AppointmentComponent implements OnInit {
   loadingTimes = false;
   loadingSubmit = false;
   loading = true;
+  jwtToken:String = ""
   servicosSelect: any[] = []
   servicoCheckState: { [key: number]: boolean } = {};
 
   
 
 
-  constructor(private appointmentService: AppointmentService , private route: ActivatedRoute , private client:Client , private servicos:ListAllService , private toast:ToastService) {}
+  constructor(private appointmentService: AppointmentService , private route: ActivatedRoute , private client:Client , private servicos:ListAllService , private toast:ToastService, private router:Router, ) {}
    
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -56,7 +57,8 @@ loadClientAndServices() {
     next: (response: ClientResponse) => {
     
       this.clientAppointment = response.client;
-
+       this.jwtToken = response.token
+      console.log("token" , this.jwtToken)
        this.loadServices();
       this.loading = false; 
     },
@@ -75,9 +77,8 @@ loadServices(): void {
 
   const barberId = this.clientAppointment.idUser;
 
-  this.servicos.getServicesByBarber(barberId).subscribe({
+  this.servicos.getServicesByBarber(barberId , this.jwtToken).subscribe({
     next: (res) => {
-      console.log("Serviços do barbeiro:", res.service);
       this.services = res.service; // popula no HTML
     },
     error: (err) => {
@@ -85,7 +86,6 @@ loadServices(): void {
     }
   });
 }
-
 
 
 buscarHorarios() {
@@ -100,7 +100,7 @@ buscarHorarios() {
     .subscribe({
       next: (response: horarioDisponivel[]) => {
 
-        this.horariosDisponiveis = response; // response is the array
+        this.horariosDisponiveis = response; 
         this.loadingTimes = false;
       },
       error: () => {
@@ -143,8 +143,6 @@ buscarHorarios() {
       status: 'Agendado'
     };
 
-    console.log('agenda' , novoAgendamento)
-  
 
     this.loadingSubmit = true;
     this.appointmentService.createAppointment(novoAgendamento)
@@ -155,6 +153,8 @@ buscarHorarios() {
           this.horarioEscolhido = '';
           this.horariosDisponiveis = [];
           this.loadingSubmit = false;
+
+          this.router.navigate(["cliente/cadastro"])
         },
         error: (err) => {
           this.toast.error(err.error?.error || 'Erro ao realizar agendamento')

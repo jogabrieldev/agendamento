@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient , HttpHeaders } from '@angular/common/http';
+
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 import { serviceAuthUser } from './serviceAuth';
@@ -29,24 +30,25 @@ export class ListAllService {
   }
 
  
-
-  getAllServices(): Observable<{ service: Service[] }> {
-    const token = this.token.getToken()
-    if(!token){
-       this.router.navigate(['/login'])
-    }
-    const headers = {Authorization: `Bearer ${token}` }
-    return this.http.get<{ service: Service[] }>(this.URL, { headers});
+getAllServices(): Observable<{ service: Service[] }> {
+  const token = this.token.getToken();
+  if(!token){
+     this.router.navigate(['/login']);
+      // evita enviar requisição sem token
   }
 
-  getServicesByBarber(barberId: number): Observable<{ service: Service[] }> {
-    const token = this.token.getToken()
-    if(!token){
-       this.router.navigate(['/login'])
-    }
-    const headers = {Authorization: `Bearer ${token}` }
-  return this.http.get<{ service: Service[] }>(`${this.URL}?barberId=${barberId}`, { headers });
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  return this.http.get<{ service: Service[] }>(this.URL, { headers });
 }
+
+getServicesByBarber(barberId: number, token: String): Observable<{ service: Service[] }> {
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  return this.http.get<{ service: Service[] }>(
+    `${this.URL}/barber?barberId=${barberId}`,
+    { headers }
+  );
+}
+
 
 
   deleteService(id: number): Observable<any> {

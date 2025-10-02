@@ -4,9 +4,12 @@ import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastService } from '../../../service/serviceStyle';
 import { Client , ClientResponse } from '../../../service/clientService';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+
 @Component({
   selector: 'app-client-register',
-  imports: [CommonModule , FormsModule],
+  imports: [CommonModule , FormsModule , NgxMaskDirective],
+  providers:[provideNgxMask()],
   templateUrl: './client-register.component.html',
   styleUrl: './client-register.component.css'
 })
@@ -14,6 +17,7 @@ export class ClientRegisterComponent {
 
   cliente = {
      name:"",
+     email:"",
      phone:"",
      token: ""
   }
@@ -31,8 +35,7 @@ export class ClientRegisterComponent {
      this.route.params.subscribe(params => {
         if (params['token']) {
           this.token = params['token'];
-          console.log('token' , this.token)
-
+  
           this.cliente.token = this.token ?? ""
         }
      });
@@ -43,25 +46,14 @@ export class ClientRegisterComponent {
         return
      }
 
+      
       let phone = this.cliente.phone.replace(/\D/g, ""); 
-    
-    if (phone.length === 9 && phone.startsWith("9")) {
-     phone = "62" + phone; // adiciona DDD 62
-      } else if (phone.length === 10 && phone.startsWith("9")) {
-     
-      phone = phone; 
-  } else {
-    this.toasty.error("Número de telefone inválido!");
-    return;
-  }
+       if(phone.length != 11) return
 
-  this.cliente.phone = phone;
-
-     console.log("cliente" , this.cliente)
+     this.cliente.phone = phone;
 
      this.clientService.registerClient(this.cliente).subscribe({
       next: (res:ClientResponse) => {
-      console.log(res)
 
       this.toasty.success("Cliente cadastrado com sucesso!");
 
@@ -69,10 +61,17 @@ export class ClientRegisterComponent {
       this.router.navigate([`agendamento/${token}`]);  
     },
     error: (err) => {
-      console.error(err);
-      this.toasty.error("Erro ao cadastrar cliente!");
+        console.error(err);
+
+      const errorMessage = err?.error?.message || "Erro ao cadastrar cliente!";
+      this.toasty.error(errorMessage);
      }
    });
   }
-  
+
+    goToAuth() {
+    this.router.navigate(['client/acesso']);
+  }
+
+
 }
