@@ -50,18 +50,16 @@
 
   <div *ngIf="services.length > 0" class="p-3 rounded border gap">
   <ul class="list-group">
-    <li
-      *ngFor="let service of services"
-      class="list-group-item d-flex align-items-center"
-    >
-      <!-- checkbox maior à esquerda -->
-       <div class="form-check form-switch me-3 flex-shrink-0">
+    <li *ngFor="let service of services" class="list-group-item d-flex align-items-center">
+      
+      <!-- Radio button para 1 serviço -->
+      <div class="form-check me-3 flex-shrink-0">
         <input
-          class="form-check-input big-switch"
-          type="checkbox"
-          role="switch"
-          [checked]="isSelecionado(service.idServi)"
-          (change)="onCheckboxChange($event, service.idServi)"
+          class="form-check-input"
+          type="radio"
+          name="servicoSelecionado"
+          [value]="service.idServi"
+          [(ngModel)]="servicosSelect[0]"
           id="service-{{ service.idServi }}"
         />
       </div>
@@ -78,6 +76,7 @@
     </li>
   </ul>
 </div>
+
 
 
   <div *ngIf="services.length === 0" class="alert alert-secondary mt-3">

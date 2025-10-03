@@ -9,8 +9,8 @@ import { ListServiceComponent } from './pages/list-service/list-service.componen
 import { AccessClientComponent } from './pages/access-client/access-client.component';
 import { AppointmentComponent } from './pages/appointment/appointment.component';
 import { ClientRegisterComponent } from './pages/client-register/client-register.component';
-
 import { GenerateQrcodeComponent } from './pages/generate-qrcode/generate-qrcode.component';
+import { PendingClientComponent } from './pages/pending-client/pending-client.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -21,6 +21,7 @@ export const routes: Routes = [
   {path: 'listService' , component:ListServiceComponent , canActivate:[authGuard]},
   {path:"cliente/cadastro" , component:ClientRegisterComponent },
   {path:"agendamento/:token" , component:AppointmentComponent  },
+  {path:"pendencia/client" , component:PendingClientComponent},
   {path:"client/acesso" , component:AccessClientComponent},
   {path:'qrcode' , component:GenerateQrcodeComponent}
 ];

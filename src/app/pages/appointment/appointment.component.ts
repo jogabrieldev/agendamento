@@ -79,7 +79,7 @@ loadServices(): void {
 
   this.servicos.getServicesByBarber(barberId , this.jwtToken).subscribe({
     next: (res) => {
-      this.services = res.service; // popula no HTML
+      this.services = res.service; 
     },
     error: (err) => {
       console.error("Erro ao buscar serviços:", err);
@@ -111,57 +111,80 @@ buscarHorarios() {
 }
 
  agendar() {
-    if (!this.horarioEscolhido || !this.dataSelecionada) {
-      this.toast.error('Selecione data e horário!')
-      return;
-    }
-
-    const hoje = new Date();
-      hoje.setHours(0,0,0,0);
-      const dataSelecionada = new Date(this.dataSelecionada);
-      dataSelecionada.setHours(0,0,0,0);
-
-     if (dataSelecionada < hoje) {
-       this.toast.error('Não é possível agendar para datas passadas!');
-      return;
-     }
-
-      if(this.servicosSelect.length === 0) {
-        this.toast.error('Selecione pelo menos um serviço!')
+  if (!this.horarioEscolhido || !this.dataSelecionada) {
+    this.toast.error('Selecione data e horário!');
     return;
   }
 
-   const horarioObj = this.horariosDisponiveis.find(h => h.idDispo === Number(this.horarioEscolhido));
+  const hoje = new Date();
+  hoje.setHours(0, 0, 0, 0);
 
-    const novoAgendamento: Appointment = {
-      data: this.dataSelecionada,
-      horario: horarioObj ? horarioObj.horario : '',
-      preco: this.precoServico,
-      idClient: this.clientAppointment.idClient,
-      idUser: this.idUser,
-      idServi: this.servicosSelect,
-      status: 'Agendado'
-    };
+  const partes = this.dataSelecionada.split('-').map(Number); // YYYY-MM-DD
+  const dataSelecionada = new Date(partes[0], partes[1] - 1, partes[2]);
+  dataSelecionada.setHours(0, 0, 0, 0);
 
-
-    this.loadingSubmit = true;
-    this.appointmentService.createAppointment(novoAgendamento)
-      .subscribe({
-        next: () => {
-          this.toast.success('Agendamento realizado com sucesso!')
-          
-          this.horarioEscolhido = '';
-          this.horariosDisponiveis = [];
-          this.loadingSubmit = false;
-
-          this.router.navigate(["cliente/cadastro"])
-        },
-        error: (err) => {
-          this.toast.error(err.error?.error || 'Erro ao realizar agendamento')
-          this.loadingSubmit = false;
-        }
-      });
+  if (dataSelecionada < hoje) {
+    this.toast.error('Não é possível agendar para datas passadas!');
+    return;
   }
+
+  if (this.servicosSelect.length === 0) {
+    this.toast.error('Selecione pelo menos um serviço!');
+    return;
+  }
+
+  const horarioObj = this.horariosDisponiveis.find(h => h.idDispo === Number(this.horarioEscolhido));
+  if (!horarioObj) {
+    this.toast.error('Horário inválido!');
+    return;
+  }
+
+  // Cria Date completo da data selecionada + horário, de forma confiável no horário local
+  const dataHoraSelecionada = new Date(`${this.dataSelecionada}T${horarioObj.horario}:00`);
+  const agora = new Date();
+
+  if (dataHoraSelecionada < agora) {
+    this.toast.error('Não é possível agendar horários já passados!');
+    return;
+  }
+  const servicoSelecionado = this.services.find(
+  s => s.idServi === Number(this.servicosSelect[0])
+);
+if (!servicoSelecionado) {
+  this.toast.error('Serviço inválido ou não encontrado!');
+  return;
+}
+
+const precoServico = servicoSelecionado.price;
+  
+
+  const novoAgendamento: Appointment = {
+    data: this.dataSelecionada,
+    horario: horarioObj ? horarioObj.horario : '',
+    preco: precoServico,
+    idClient: this.clientAppointment.idClient,
+    idUser: this.idUser,
+    idServi: this.servicosSelect,
+    status: 'Agendado'
+  };
+
+  this.loadingSubmit = true;
+  this.appointmentService.createAppointment(novoAgendamento)
+    .subscribe({
+      next: () => {
+        this.toast.success('Agendamento realizado com sucesso!');
+        this.horarioEscolhido = '';
+        this.horariosDisponiveis = [];
+        this.loadingSubmit = false;
+        this.router.navigate(["cliente/cadastro"]);
+      },
+      error: (err) => {
+        console.error(err);
+        this.loadingSubmit = false;
+      }
+    });
+}
+
   
 
  getCheckedValue(event: Event): boolean {

@@ -32,6 +32,7 @@ export class LoginComponent {
 
     this.authService.authenticaterUser(user).subscribe({
       next: (res) => {
+
       
         const tokenRecebidoDoBackend = res.token; 
         if(tokenRecebidoDoBackend){

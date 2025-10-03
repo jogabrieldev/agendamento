@@ -53,6 +53,8 @@ export class Client {
   return this.http.get<any>(`${this.useUrl}/client/phone/${phone}`);
 }
 
-
+ getPendingByClient(idClient: number) {
+    return this.http.get<any>(`${this.useUrl}/client/pending/${idClient}`);
+  }
 
 }
