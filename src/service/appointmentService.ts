@@ -5,8 +5,6 @@ import { Observable, Observer } from 'rxjs';
 import { environment } from '../environments/environment';
 
 export interface Appointment {
-// client: any;
-
   data: string;       
   horario: string;    
   status?: string;   
@@ -14,7 +12,7 @@ export interface Appointment {
   preco: number;
   idClient: number;
   idUser: number;
-  idServi: number[];
+  idServi: number;
 }
 
 export interface horarioDisponivel{
@@ -44,5 +42,14 @@ export class AppointmentService {
 
   createAppointment(appointment: Appointment): Observable<Appointment> {
     return this.http.post<Appointment>(`${this.useUrl}/appointments`, appointment);
+  }
+
+ cancelAppointment(id: number): Observable<any> {
+    return this.http.delete(`${this.useUrl}/appointments/${id}`);
+  }
+
+  // Concluir (finalizar) agendamento
+  finishAppointment(id: string): Observable<any> {
+    return this.http.patch(`${this.useUrl}/appointments/finalizar/${id}`, {});
   }
 }

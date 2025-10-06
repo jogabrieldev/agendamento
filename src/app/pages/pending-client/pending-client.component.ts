@@ -1,11 +1,11 @@
 import { Component, OnInit, } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router ,ActivatedRoute } from '@angular/router';
 import { Subject, takeUntil, take } from 'rxjs';
 import { PendingStateService } from '../../../service/pending-state.service';
 import { Client } from '../../../service/clientService';
 import { CommonModule} from '@angular/common';
-
-
+import { ToastService } from '../../../service/serviceStyle';
+import { AppointmentService, Appointment } from '../../../service/appointmentService';
 @Component({
   selector: 'app-pending-client',
   standalone:true,
@@ -20,7 +20,10 @@ export class PendingClientComponent implements OnInit {
 
   constructor(private pendingState: PendingStateService,
     private clientService: Client,
-    private route: ActivatedRoute) {}
+    private route: ActivatedRoute,
+    private Router: Router,
+    private appointmentService:AppointmentService,
+    private toast: ToastService) {}
 
   ngOnInit(): void {
     // 1) tenta ler do service 
@@ -37,7 +40,7 @@ export class PendingClientComponent implements OnInit {
               this.clientService.getPendingByClient(id).subscribe({
                 next: (res) => {
                   this.pendencias = res.appointments || [];
-                  // guarda no service pra futuras navegações sem nova chamada
+               
                   this.pendingState.setAppointments(this.pendencias);
                 },
                 error: (err) => {
@@ -68,6 +71,40 @@ export class PendingClientComponent implements OnInit {
   const diaSemana = dias[d.getDay()];
   return `${dia.toString().padStart(2, '0')}/${mes.toString().padStart(2, '0')}/${ano} (${diaSemana})`;
 }
+
+concluirPendencia(idAgendamento: number) {
+  this.appointmentService.finishAppointment(idAgendamento.toString()).subscribe({
+    next: () => {
+      // Atualiza o status localmente
+      const agendamento = this.pendencias.find(a => a.id === idAgendamento);
+      if (agendamento) agendamento.status = 'Concluído';
+      this.toast.success('Agendamento concluído!');
+      this.Router.navigate(["cliente/cadastro"])
+      
+    },
+    error: (err) => {
+      console.error(err);
+      const mensagem = err.error?.error || 'Erro ao concluir agendamento.';
+      this.toast.error(mensagem);
+    }
+  });
+}
+ 
+// IMPLEMENTAR
+// deletarPendencia(idAgendamento: number) {
+//   this.appointmentService.cancelAppointment(idAgendamento).subscribe({
+//     next: () => {
+//       this.pendencias = this.pendencias.filter(a => a.idAppointment !== idAgendamento);
+//       this.toast.success('Agendamento cancelado com sucesso!');
+//       this.Router.navigate(["cliente/cadastro"])
+//     },
+//     error: (err) => {
+//       console.error(err);
+//       this.toast.error('Erro ao cancelar agendamento.');
+//     }
+//   });
+// }
+
 
 
 }

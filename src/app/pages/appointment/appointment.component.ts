@@ -164,7 +164,7 @@ const precoServico = servicoSelecionado.price;
     preco: precoServico,
     idClient: this.clientAppointment.idClient,
     idUser: this.idUser,
-    idServi: this.servicosSelect,
+    idServi: Number(this.servicosSelect[0]),
     status: 'Agendado'
   };
 
@@ -181,12 +181,15 @@ const precoServico = servicoSelecionado.price;
       error: (err) => {
         console.error(err);
         this.loadingSubmit = false;
+         const mensagem = err?.error?.message || "Erro ao fazer o agendamento! Tente novamente.";
+
+      this.toast.error(mensagem);
+      console.error('Erro no agendamento:', err);
       }
     });
 }
 
   
-
  getCheckedValue(event: Event): boolean {
   return (event.target as HTMLInputElement).checked;
  }
