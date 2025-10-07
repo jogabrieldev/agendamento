@@ -17,22 +17,16 @@
               <p class="mb-1">
                 <i class="bi bi-flag-fill text-danger me-2"></i> 
                 <strong>Status:</strong> 
-                <span [ngClass]="{
-                  'badge bg-warning text-dark': p.status === 'Pendente',
-                  'badge bg-success': p.status === 'Concluído',
-                  'badge bg-danger': p.status === 'Cancelado'
-                }">{{ p.status }}</span>
+                <span [ngClass]=>{{ p.status }}</span>
               </p>
               <p class="mb-0"><i class="bi bi-cash-coin text-success me-2"></i> <strong>Preço:</strong> R$ {{ p.preco }}</p>
+              <p class="me-2"> <strong class="me-2">Codigo do agendamento:</strong>{{p.codigoAgendamento}}</p>
             </div>
 
              <div class="d-flex gap-2">
                <button class="btn btn-success btn-sm" (click)="concluirPendencia(p.idAppointment)">
                  <i class="bi bi-check-lg me-1"></i> Concluir
                </button>
-              <!-- <button class="btn btn-danger btn-sm" (click)="deletarPendencia(p.idAppointment)">
-                <i class="bi bi-trash me-1"></i> cancelar
-              </button> -->
              </div>
           </li>
         </ul>

@@ -40,9 +40,8 @@ export class Client {
        this.useUrl = `${environment.apiUrl}`
     }
    
-   
     registerClient(client:{name:string , phone:number | string}){
-      return this.http.post<ClientResponse>(`${this.useUrl}/client`, client )
+    return this.http.post<ClientResponse>(`${this.useUrl}/client`, client )
     }
      
     getAcessToken(token: string): Observable<ClientResponse> {
@@ -50,11 +49,11 @@ export class Client {
     }
     
     getClientByPhone(phone: string): Observable<any> {
-  return this.http.get<any>(`${this.useUrl}/client/phone/${phone}`);
-}
+    return this.http.get<any>(`${this.useUrl}/client/phone/${phone}`);
+   }
 
- getPendingByClient(idClient: number) {
+    getPendingByClient(idClient: number){
     return this.http.get<any>(`${this.useUrl}/client/pending/${idClient}`);
-  }
+   }
 
 }

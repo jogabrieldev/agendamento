@@ -46,6 +46,7 @@ export class ListServiceComponent implements OnInit {
               this.listAllService.deleteService(id).subscribe({
          next: () => {
           this.services = this.services.filter(s => s.idServi !== id);
+          console.log("serviço" , this.services)
            this.toast.success('Serviço deletado com sucesso!');
        },
          error: (error) => {

@@ -90,21 +90,4 @@ concluirPendencia(idAgendamento: number) {
   });
 }
  
-// IMPLEMENTAR
-// deletarPendencia(idAgendamento: number) {
-//   this.appointmentService.cancelAppointment(idAgendamento).subscribe({
-//     next: () => {
-//       this.pendencias = this.pendencias.filter(a => a.idAppointment !== idAgendamento);
-//       this.toast.success('Agendamento cancelado com sucesso!');
-//       this.Router.navigate(["cliente/cadastro"])
-//     },
-//     error: (err) => {
-//       console.error(err);
-//       this.toast.error('Erro ao cancelar agendamento.');
-//     }
-//   });
-// }
-
-
-
 }

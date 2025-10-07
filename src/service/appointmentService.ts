@@ -44,11 +44,10 @@ export class AppointmentService {
     return this.http.post<Appointment>(`${this.useUrl}/appointments`, appointment);
   }
 
- cancelAppointment(id: number): Observable<any> {
-    return this.http.delete(`${this.useUrl}/appointments/${id}`);
+  cancelAppointment(codigo: number): Observable<any> {
+    return this.http.patch(`${this.useUrl}/appointments/${codigo}` , null);
   }
 
-  // Concluir (finalizar) agendamento
   finishAppointment(id: string): Observable<any> {
     return this.http.patch(`${this.useUrl}/appointments/finalizar/${id}`, {});
   }
