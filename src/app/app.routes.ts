@@ -20,7 +20,7 @@ export const routes: Routes = [
   {path: 'hours' , component: HoursComponent , canActivate:[authGuard]},
   {path: 'listService' , component:ListServiceComponent , canActivate:[authGuard]},
   {path:"cliente/cadastro" , component:ClientRegisterComponent },
-  {path:"agendamento/:token" , component:AppointmentComponent  },
+  {path:"agendamento/:token" , component:AppointmentComponent },
   {path:"pendencia/client" , component:PendingClientComponent},
   {path:"client/acesso" , component:AccessClientComponent},
   {path:'qrcode' , component:GenerateQrcodeComponent}
