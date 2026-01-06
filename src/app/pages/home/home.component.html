@@ -3,7 +3,7 @@
 
   <h1 class="mb-5 fw-bold text-white-emphasis">
     <i class="bi bi-person-bounding-box me-2"></i>
-     Bem-vindo, <strong>{{ userName }}</strong> à página inicial
+    Bem-vindo, <strong>{{ userName }}</strong> à página inicial
   </h1>
 
   <div class="row justify-content-center g-4 mb-5">
@@ -23,27 +23,24 @@
       </a>
     </div>
     <div class="col-10 col-md-4">
-      <button class="btn btn-danger w-100 py-3 fs-5 rounded-4 shadow-lg btn-anim text-white"    (click)="openDeletePopup()">
+      <button class="btn btn-danger w-100 py-3 fs-5 rounded-4 shadow-lg btn-anim text-white"  (click)="openDeletePopup()">
         <i class="bi bi-trash me-2"></i> Apagar agendamentos
       </button>
     </div>
   </div>
 
- <div class="dashboard text-start bg-secondary bg-opacity-25 p-4 rounded-4 shadow-lg">
-  <h4 class="text-light mb-3">
-    <i class="bi bi-clock-history me-2"></i> Últimos Clientes
-  </h4>
-  <ul class="list-group list-group-flush">
-    <li
-      *ngFor="let item of appointments"
-      class="list-group-item bg-transparent text-light d-flex justify-content-between border-bottom border-secondary">
-      <!-- <span>{{ item.client.name }}</span> -->
-      <small>
-        {{ (item.data) }}, {{ item.horario }}:00
-      </small>
-    </li>
-  </ul>
-</div>
+  <div class="dashboard text-start bg-secondary bg-opacity-25 p-4 rounded-4 shadow-lg">
+    <h4 class="text-light mb-3">
+     <i class="bi bi-clock-history me-2"></i> Últimos Clientes
+    </h4>
+    <ul class="list-group list-group-flush">
+      <li *ngFor="let item of appointments" class="list-group-item bg-transparent text-light d-flex justify-content-between border-bottom border-secondary">
+        <small>
+         {{ (item.data) }}, {{ item.horario }}:00
+        </small>
+      </li>
+    </ul>
+  </div>
 </div>
 
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -75,8 +72,7 @@
             maxlength="6"
             pattern="\d{6}"
             [(ngModel)]="codeValid"
-            placeholder="Digite os 6 dígitos"
-          />
+            placeholder="Digite os 6 dígitos"/>
         </div>
       </div>
 

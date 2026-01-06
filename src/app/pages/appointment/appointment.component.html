@@ -1,10 +1,9 @@
-<!-- src/app/components/appointment/appointment.component.html -->
+
 <div class="container py-4 mt-5">
   <h2 class="mb-4 d-flex align-items-center text-white">
     <i class="bi bi-calendar-check-fill me-2 text-primary"></i> Agendar um horário
   </h2>
 
-  <!-- Seleção de data -->
   <div class="mb-3">
     <label for="data" class="form-label text-white">
       <i class="bi bi-calendar-event me-1"></i> Escolha a data
@@ -12,25 +11,22 @@
     <input id="data" type="date" class="form-control" [(ngModel)]="dataSelecionada" (change)="buscarHorarios()" />
   </div>
 
-  <!-- Carregando horários -->
   <div *ngIf="loadingTimes" class="mb-3 text-muted d-flex align-items-center">
     <i class="spinner-border spinner-border-sm me-2"></i>
     Carregando horários disponíveis...
   </div>
 
-  <!-- Lista de horários disponíveis -->
   <div *ngIf="horariosDisponiveis.length > 0" class="mb-3">
-  <label class="form-label">
-    <i class="bi bi-clock-history me-1"></i> Horários disponíveis
-  </label>
-  <select class="form-select" [(ngModel)]="horarioEscolhido">
-    <option [value]="''" disabled>Selecione um horário</option>
-    <option *ngFor="let h of horariosDisponiveis" [value]="h.idDispo" class="text-dark">
-      {{ h.horario }}
-    </option>
-  </select>
-</div>
-
+    <label class="form-label">
+     <i class="bi bi-clock-history me-1"></i> Horários disponíveis
+    </label>
+    <select class="form-select" [(ngModel)]="horarioEscolhido">
+     <option [value]="''" disabled>Selecione um horário</option>
+      <option *ngFor="let h of horariosDisponiveis" [value]="h.idDispo" class="text-dark">
+       {{ h.horario }}
+      </option>
+    </select>
+  </div>
 
   <!-- Nenhum horário -->
   <div *ngIf="horariosDisponiveis.length === 0 && dataSelecionada && !loadingTimes" class="alert alert-danger">
@@ -49,46 +45,43 @@
   </h3>
 
   <div *ngIf="services.length > 0" class="p-3 rounded border gap">
-  <ul class="list-group">
-    <li *ngFor="let service of services" class="list-group-item d-flex align-items-center">
-      
-      <!-- Radio button para 1 serviço -->
-      <div class="form-check me-3 flex-shrink-0">
-        <input
+    <ul class="list-group">
+      <li *ngFor="let service of services" class="list-group-item d-flex align-items-center">
+
+        <div class="form-check me-3 flex-shrink-0">
+         <input
           class="form-check-input"
           type="radio"
           name="servicoSelecionado"
           [value]="service.idServi"
           [(ngModel)]="servicosSelect[0]"
-          id="service-{{ service.idServi }}"
-        />
-      </div>
+          id="service-{{ service.idServi }}"/>
+        </div>
 
-      <!-- informações do serviço -->
-      <div class="flex-grow-1">
-        <h5 class="mb-1">{{ service.name }}</h5>
-        <p class="mb-1 text-muted">
-          <i class="bi bi-cash-coin me-1"></i> R$ {{ service.price }} |
-          <i class="bi bi-clock me-1"></i> {{ service.duracao }} min
-        </p>
-        <p class="mb-0">{{ service.descricao }}</p>
-      </div>
-    </li>
-  </ul>
-</div>
-
-
+       <!-- informações do serviço -->
+        <div class="flex-grow-1">
+         <h5 class="mb-1">{{ service.name }}</h5>
+         <p class="mb-1 text-muted">
+           <i class="bi bi-cash-coin me-1"></i> R$ {{ service.price }} |
+           <i class="bi bi-clock me-1"></i> {{ service.duracao }} min
+         </p>
+         <p class="mb-0">{{ service.descricao }}</p>
+        </div>
+      </li>
+    </ul>
+  </div>
 
   <div *ngIf="services.length === 0" class="alert alert-secondary mt-3">
     <i class="bi bi-info-circle-fill me-2"></i>
     Nenhum serviço disponível no momento.
   </div>
 </div>
-  <div class="d-flex justify-content-center mt-1">
-     <button class="btn btn-success w-75" (click)="agendar()" [disabled]="loadingSubmit">
-       <i class="bi bi-send-check me-2"></i>
-        {{ loadingSubmit ? 'Agendando...' : 'Confirmar Agendamento' }}
-    </button>
+
+<div class="d-flex justify-content-center mt-1">
+  <button class="btn btn-success w-75" (click)="agendar()" [disabled]="loadingSubmit">
+    <i class="bi bi-send-check me-2"></i>
+    {{ loadingSubmit ? 'Agendando...' : 'Confirmar Agendamento' }}
+  </button>
 </div>
 
 

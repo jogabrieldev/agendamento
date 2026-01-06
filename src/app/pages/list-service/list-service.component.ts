@@ -17,10 +17,10 @@ export class ListServiceComponent implements OnInit {
 
   services: Service[] = [];
 
-   constructor(private listAllService: ListAllService , private toast:ToastService , private confirm:ConfirmService) {}
+  constructor(private listAllService: ListAllService , private toast:ToastService , private confirm:ConfirmService) {}
 
   ngOnInit(): void {
-     this.loadServices();;
+    this.loadServices();;
   }
   
   loadServices(): void {
@@ -35,76 +35,65 @@ export class ListServiceComponent implements OnInit {
     });
   }
 
-   deleteService(id: number): void {
+  deleteService(id: number): void {
 
-    this.confirm.confirm(
-    'Excluir esse serviço',
-    'Deseja realmente excluir este SERVIÇO?',
-    'Sim, excluir',
-    'Não').then((confirm)=>{
-         if(confirm){
-              this.listAllService.deleteService(id).subscribe({
+    this.confirm.confirm('Excluir esse serviço','Deseja realmente excluir este SERVIÇO?','Sim, excluir','Não').then((confirm)=>{
+      if(confirm){
+        this.listAllService.deleteService(id).subscribe({
          next: () => {
-          this.services = this.services.filter(s => s.idServi !== id);
-          console.log("serviço" , this.services)
+           this.services = this.services.filter(s => s.idServi !== id);
            this.toast.success('Serviço deletado com sucesso!');
-       },
-         error: (error) => {
-            this.toast.error('Erro ao deletar serviço!')
-            console.error('Erro ao deletar horário:', error);
-         }
+          },
+          error: (error) => {
+           this.toast.error('Erro ao deletar serviço!')
+           console.error('Erro ao deletar horário:', error);
+          }
         });
-       }else{
-         console.error('Usuario não quis excluir')
-         return
-       }
+      }else{
+        console.error('Usuario não quis excluir')
+        return
+      }
     })
-}
+  }
 
-selectedService: Service | null   = null;
+ selectedService: Service | null   = null;
 
-openEditForm(servico: Service): void {
-  this.selectedService = { ...servico } ; 
-}
+  openEditForm(servico: Service): void {
+   this.selectedService = { ...servico } ; 
+  }
 
-saveService(): void {
-  if (!this.selectedService) return;
+  saveService(): void {
+   if (!this.selectedService) return;
 
-  const updatedService = {
-    name: this.selectedService?.name,
-    descricao: this.selectedService?.descricao,
-    duracao: this.selectedService?.duracao,
-    price: this.selectedService?.price
-  };
+    const updatedService = {
+     name: this.selectedService?.name,
+     descricao: this.selectedService?.descricao,
+     duracao: this.selectedService?.duracao,
+     price: this.selectedService?.price
+    };
    
-  this.confirm.confirm(
-     "Atualizar esse serviço" ,
-     `Deseja realmente atualizar o serviço: (${this.selectedService?.name})`,
-     "Atualizar",
-     "Cancelar"
-  ).then((confirm)=>{
+    this.confirm.confirm("Atualizar esse serviço" ,`Deseja realmente atualizar o serviço: (${this.selectedService?.name})`,"Atualizar","Cancelar"
+     ).then((confirm)=>{
       if(confirm){
 
         if (this.selectedService?.idServi == null) {
          this.toast.error('ID do serviço inválido');
          return;
-      }
+        }
 
         this.listAllService.updateService(this.selectedService.idServi, updatedService).subscribe({
-         next: () => {
-          this.toast.success('Serviço atualizado com sucesso!');
+          next: () => {
+           this.toast.success('Serviço atualizado com sucesso!');
            this.loadServices();
            this.selectedService = null;
-       },
-     error: (error) => {
-       console.error('Erro ao atualizar serviço:', error);
-       this.toast.error('Erro na atualização do serviço')
-     }
+          },
+          error: (error) => {
+           console.error('Erro ao atualizar serviço:', error);
+           this.toast.error('Erro na atualização do serviço')
+          }
         });
       };
-  });
-  
-}
-
+    });
+  }
 
 }
