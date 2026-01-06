@@ -25,40 +25,32 @@ export class ListAllService {
 
   private URL:string = environment.apiUrl + '/api/service'
 
-  constructor(private http: HttpClient , private token:serviceAuthUser , private router:Router) {
-    
-  }
+  constructor(private http: HttpClient , private token:serviceAuthUser , private router:Router) {}
 
  
-getAllServices(): Observable<{ service: Service[] }> {
-  const token = this.token.getToken();
-  if(!token){
+  getAllServices(): Observable<{ service: Service[] }> {
+    const token = this.token.getToken();
+    if(!token){
      this.router.navigate(['/login']);
-      // evita enviar requisição sem token
+    }
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<{ service: Service[] }>(this.URL, { headers });
   }
 
-  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-  return this.http.get<{ service: Service[] }>(this.URL, { headers });
-}
-
-getServicesByBarber(barberId: number, token: String): Observable<{ service: Service[] }> {
-  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-  return this.http.get<{ service: Service[] }>(
-    `${this.URL}/barber?barberId=${barberId}`,
-    { headers }
-  );
-}
-
-
+  getServicesByBarber(barberId: number, token: String): Observable<{ service: Service[] }> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+   return this.http.get<{ service: Service[] }>(`${this.URL}/barber?barberId=${barberId}`,{ headers });
+  }
 
   deleteService(id: number): Observable<any> {
     const token = this.token.getToken()
     if(!token){
-       this.router.navigate(['/login'])
+      this.router.navigate(['/login'])
     }
 
     const headers = {Authorization: `Bearer ${token}` }
-  return this.http.delete(`${this.URL}/${id}`, { headers });
+   return this.http.delete(`${this.URL}/${id}`, { headers });
   }
 
   updateService(id: number, updatedService: { name: string, descricao: string, duracao: number, price: string | number }): Observable<any> {
@@ -66,6 +58,6 @@ getServicesByBarber(barberId: number, token: String): Observable<{ service: Serv
     if(!token){this.router.navigate(['/login'])}
     const headers = {Authorization: `Bearer ${token}`}
     return this.http.put(`${this.URL}/${id}`, updatedService, { headers });
-}
+  }
 
 }

@@ -20,17 +20,14 @@ export class ListHoursService {
   private baseUrl: string;
 
 
-
   constructor(private http: HttpClient , private token:serviceAuthUser , private route:Router) {
     this.apiUrl = `${environment.apiUrl}/api/disponi`;
     this.baseUrl = `${environment.apiUrl}/api/indisponible`;
-
   }
 
-  
   getAllHours(): Observable<{ horarios: Horario[] }> {
     const token = this.token.getToken(); 
-     if(!token){this.route.navigate(['/login'])}
+    if(!token){this.route.navigate(['/login'])}
 
     const headers = { Authorization: `Bearer ${token}` };
 
@@ -39,7 +36,7 @@ export class ListHoursService {
 
   deleteHours(id: number): Observable<any> {
     const token = this.token.getToken(); 
-     if(!token){this.route.navigate(['/login'])}
+    if(!token){this.route.navigate(['/login'])}
      
     const headers = { Authorization: `Bearer ${token}` };
     return this.http.delete(`${this.apiUrl}/${id}`, {headers});
@@ -48,16 +45,13 @@ export class ListHoursService {
   getIndisponiveis(idUser: string) {
     const token = this.token.getToken()
     if(!token){
-       this.route.navigate(['/login'])
+      this.route.navigate(['/login'])
     }
     const headers = {Authorization: `Bearer ${token}`}
-    return this.http.get<{ horarios: any[], indisponiveis: any[] }>(
-      `${this.baseUrl}/${idUser}`,{headers}
-    );
+    return this.http.get<{ horarios: any[], indisponiveis: any[] }>(`${this.baseUrl}/${idUser}`,{headers});
   }
 
   updateHour(id: number, updatedHour: { horario: string, bodyStatus: string }): Observable<any> {
-
     const token = this.token.getToken(); 
      if(!token){this.route.navigate(['/login'])}
      
@@ -68,7 +62,7 @@ export class ListHoursService {
   indisponible(payload: { status: string, horario: string, dataIndisponivel: string, idUser: string | any }) {
 
     const token = this.token.getToken(); 
-     if(!token){this.route.navigate(['/login'])}
+    if(!token){this.route.navigate(['/login'])}
      
     const headers = { Authorization: `Bearer ${token}` };
     return this.http.post(`${this.baseUrl}`, payload , {headers});

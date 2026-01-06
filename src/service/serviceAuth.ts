@@ -9,17 +9,17 @@ import { environment } from '../environments/environment';
   providedIn: 'root'
 })
 export class serviceAuthUser {
-  login(token: string) {
-  this.saveToken(token);
-}
+  
   constructor(private http: HttpClient , private router:Router) {}
   
-   private URL = environment.apiUrl
+  private URL = environment.apiUrl
+
+  login(token: string) {
+   this.saveToken(token);
+  }
 
   authenticaterUser(userData: { phoneUser: string|number;  senha: string|number }): Observable<any> {
-    return this.http.post(`${this.URL}/authenticate`, userData , {
-      withCredentials: true
-    });
+    return this.http.post(`${this.URL}/authenticate`, userData , {withCredentials: true});
   }
 
   saveToken(token:string){
@@ -32,17 +32,17 @@ export class serviceAuthUser {
   }
 
   isLoggedIn(): boolean {
-  const token = this.getToken();
-  if (!token) return false;
+   const token = this.getToken();
+   if (!token) return false;
 
-  try {
+   try {
     const payload = JSON.parse(atob(token.split('.')[1]));
     const isExpired = payload.exp * 1000 < Date.now();
     return !isExpired;
-  } catch (e) {
+   } catch (e) {
     return false;
+   }
   }
-}
 
 
   logout(){

@@ -19,12 +19,10 @@ export class movimentService {
 
     const token =  this.token.getToken()
     if(!token){
-       this.router.navigate(['/login'])
+      this.router.navigate(['/login'])
     }
    const headers = {Authorization: `Bearer ${token}`}
-  return this.http.post(`${this.url}`, newService, {
-   headers
-  });
-}
+   return this.http.post(`${this.url}`, newService, {headers});
+  }
 
 }
