@@ -1,97 +1,48 @@
-
-<div class="container py-5 text-center home-container rounded-4 shadow-lg text-white h-100 ">
-
-  <h1 class="mb-5 fw-bold text-white-emphasis">
-    <i class="bi bi-person-bounding-box me-2"></i>
-     Bem-vindo, <strong>{{ userName }}</strong> à página inicial
-  </h1>
-
-  <div class="row justify-content-center g-4 mb-5">
-    <div class="col-10 col-md-4">
-      <a routerLink="/register" class="btn btn-primary w-100 py-3 fs-5 rounded-4 shadow-lg btn-anim text-white">
-        <i class="bi bi-scissors me-2"></i> Cadastrar Serviços
-      </a>
-    </div>
-    <div class="col-10 col-md-4">
-      <a routerLink="/listService" class="btn btn-primary w-100 py-3 fs-5 rounded-4 shadow-lg btn-anim text-white">
-        <i class="bi bi-card-list me-2"></i> Meus Serviços
-      </a>
-    </div>
-    <div class="col-10 col-md-4">
-      <a routerLink="/hours" class="btn btn-primary w-100 py-3 fs-5 rounded-4 shadow-lg btn-anim text-white">
-        <i class="bi bi-clock me-2"></i> Horários
-      </a>
-    </div>
-    <div class="col-10 col-md-4">
-      <button class="btn btn-danger w-100 py-3 fs-5 rounded-4 shadow-lg btn-anim text-white"    (click)="openDeletePopup()">
-        <i class="bi bi-trash me-2"></i> Apagar agendamentos
-      </button>
-    </div>
-  </div>
-
- <div class="dashboard text-start bg-secondary bg-opacity-25 p-4 rounded-4 shadow-lg">
-  <h4 class="text-light mb-3">
-    <i class="bi bi-clock-history me-2"></i> Últimos Clientes
-  </h4>
-  <ul class="list-group list-group-flush">
-    <li
-      *ngFor="let item of appointments"
-      class="list-group-item bg-transparent text-light d-flex justify-content-between border-bottom border-secondary">
-      <!-- <span>{{ item.client.name }}</span> -->
-      <small>
-        {{ (item.data) }}, {{ item.horario }}:00
-      </small>
-    </li>
-  </ul>
-</div>
-</div>
-
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content rounded-4 shadow-lg border-0">
-      <div class="modal-header bg-danger text-white d-flex align-items-center">
-        <i class="bi bi-exclamation-triangle-fill fs-3 me-2"></i>
-        <h5 class="modal-title fw-bold" id="deleteModalLabel">Confirmação Irreversível</h5>
-        <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+<div class="container py-5 d-flex justify-content-center align-items-center min-vh-100">
+  
+  <div class="card bg-dark bg-opacity-75 border-secondary border-opacity-25 rounded-4 shadow-lg p-4 w-100" style="max-width: 600px; backdrop-filter: blur(10px);">
+    
+    <div class="text-center mb-4">
+      <div class="display-6 text-white mb-2">
+        <i class="bi bi-person-circle text-primary"></i>
       </div>
+      <h2 class="fw-bold text-white">
+        Olá, <span class="text-primary">{{ userName }}</span>!
+      </h2>
+      <p class="text-secondary small">Acompanhe seus agendamentos recentes abaixo.</p>
+    </div>
 
-      <div class="modal-body">
-        <div class="text-center mb-3">
-          <i class="bi bi-trash-fill text-danger display-4"></i>
-        </div>
-        <h4 class="text-center fw-semibold mb-2">Digite o código do agendamento</h4>
-        <p class="text-center text-muted small mb-3">
-          <i class="bi bi-exclamation-circle-fill text-danger me-1"></i>
-          <strong>Cuidado!</strong> Após confirmar, o agendamento será <u>excluído permanentemente</u> e não poderá ser recuperado.
-        </p>
+    <hr class="border-secondary opacity-25">
 
-        <div class="input-group mt-3">
-          <span class="input-group-text bg-danger text-white border-end-0">
-            <i class="bi bi-keypad-fill"></i>
+    <div class="dashboard mt-4">
+      <h5 class="text-white me-4 d-flex align-items-center">
+        <i class="bi bi-clock-history me-2 text-warning"></i> 
+        Últimos Clientes
+      </h5>
+
+      <div class="list-group list-group-flush custom-scroll" style="max-height: 300px; overflow-y: auto;">
+        
+        <div *ngFor="let item of appointments" 
+             class="list-group-item bg-transparent text-light d-flex justify-content-between align-items-center px-0 py-3 border-secondary border-opacity-25">
+          
+          <div class="d-flex align-items-center">
+            <div class="bg-primary bg-opacity-10 p-2 rounded-3 me-3">
+              <i class="bi bi-calendar-event text-primary"></i>
+            </div>
+            <span class="fw-medium">{{ item.data }}</span>
+          </div>
+          
+          <span class="badge rounded-pill bg-secondary bg-opacity-50 text-light fw-normal p-2">
+            <i class="bi bi-clock me-1"></i> {{ item.horario }}:00
           </span>
-          <input
-            type="text"
-            class="form-control border-start-0"
-            maxlength="6"
-            pattern="\d{6}"
-            [(ngModel)]="codeValid"
-            placeholder="Digite os 6 dígitos"
-          />
         </div>
-      </div>
 
-      <div class="modal-footer d-flex justify-content-between">
-        <button type="button" class="btn btn-secondary rounded-3 d-flex align-items-center" data-bs-dismiss="modal">
-          <i class="bi bi-x-circle me-2"></i> Cancelar
-        </button>
-        <button type="button" class="btn btn-danger rounded-3 d-flex align-items-center" (click)="confirmDelete()">
-          <i class="bi bi-trash3-fill me-2"></i> Apagar Definitivamente
-        </button>
+        <div *ngIf="appointments.length === 0" class="text-center py-4 text-secondary">
+          <i class="bi bi-calendar-x d-block fs-2 mb-2"></i>
+          Nenhum agendamento encontrado.
+        </div>
+
       </div>
     </div>
   </div>
 </div>
-
-
-
-

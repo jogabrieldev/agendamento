@@ -1,0 +1,51 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-lg mb-4">
+   <div class="container">
+        <a class="navbar-brand fw-bold" routerLink="/">
+         <i class="bi bi-person-bounding-box me-2"></i>Sua Marca
+        </a>
+    
+       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+         <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav" #navBar>
+           <ul class="navbar-nav ms-auto gap-2">
+                <li class="nav-item">
+                 <a class="nav-link" routerLink="/home" (click)="fecharMenu(navBar)"><i class="bi bi-house-door me-1"></i>Inicio</a>
+                </li>
+                <li class="nav-item">
+                   <a class="nav-link" routerLink="/register" (click)="fecharMenu(navBar)"><i class="bi bi-scissors me-1"></i>  Cadastrar</a>
+                </li>
+                <li class="nav-item">
+                   <a class="nav-link" routerLink="/listService" (click)="fecharMenu(navBar)"><i class="bi bi-card-list me-1"></i> Serviços</a>
+                </li>
+                <li class="nav-item">
+                   <a class="nav-link" routerLink="/hours" (click)="fecharMenu(navBar)"><i class="bi bi-clock me-1"></i> Horários</a>
+                </li>
+                <li class="nav-item">
+                    <button class="btn btn-outline-danger btn-sm mt-1" (click)="openDeletePopup()" (click)="fecharMenu(navBar)">
+                     <i class="bi bi-trash me-1"></i> Apagar agendamento
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 border-0">
+            <div class="modal-header bg-danger text-white">
+             <h5 class="modal-title">Confirmar Exclusão</h5>
+             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+               <input type="text" class="form-control text-center fs-4" [(ngModel)]="codeValid" placeholder="Código de 6 dígitos">
+            </div>
+            <div class="modal-footer">
+             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+             <button type="button" class="btn btn-danger" (click)="confirmDelete()">Apagar</button>
+            </div>
+        </div>
+    </div>
+</div>

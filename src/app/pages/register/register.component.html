@@ -1,65 +1,83 @@
+<div class="container py-5">
+  <div class="text-center mb-5 animate__animated animate__fadeInDown">
+    <h1 class="display-5 fw-bold text-black"><i class="bi bi-calendar-check text-primary me-2"></i>Gestão de Atendimento</h1>
+    <p class="text-white">Configure sua agenda e catálogo de serviços de forma rápida</p>
+  </div>
 
-  <div class="container py-5">
-    <div class="text-center mb-5">
-      <h1 class="display-5 fw-bold text-dark"><i class="bi bi-calendar-check"></i> Cadastro de Atendimento</h1>
-      <p class="text-muted">Informe os horários e serviços que você oferece</p>
+  <div class="row g-4">
+    <div class="col-lg-5">
+      <div class="card border-0 shadow-lg h-100 overflow-hidden">
+        <div class="card-header bg-primary bg-opacity-10 border-0 p-4">
+          <h4 class="mb-0 text-white d-flex align-items-center">
+            <i class="bi bi-clock-history me-2 text-primary"></i> Horário
+          </h4>
+        </div>
+        <div class="card-body p-4">
+          <form (submit)="$event.preventDefault()">
+            <div class="mb-3">
+              <div class="input-group">
+                <span class="input-group-text bg-dark border-secondary text-secondary"><i class="bi bi-alarm"></i></span>
+                <input type="time" id="hours" class="form-control" name="hours" [(ngModel)]="hours" required />
+              </div>
+              <div class="form-text text-secondary">Isso criará um novo slot disponível na sua agenda.</div>
+            </div>
+            <button type="submit" (click)="registerHours()" class="btn btn-primary w-100 py-3 mt-2 fw-bold shadow-sm btn-anim">
+              <i class="bi bi-plus-lg me-2"></i> Adicionar Horário
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
 
-    <!-- Cadastro de Horários -->
-    <div class="card bg-secondary-subtle border-0 shadow-lg rounded-4 mb-5 p-4">
-      <h4 class="mb-4 text-light"><i class="bi bi-clock"></i> Horários de Atendimento</h4>
-      <form>
-        <div class="row">
-           <div class="col-md-6 mb-3">
-            <label for="inicio" class="form-label text-light">Horario</label>
-            <input type="time" id="hours" class="form-control" name="hours" [(ngModel)]="hours" required />
-          </div>
-          
+    <div class="col-lg-7">
+      <div class="card border-0 shadow-lg h-100 overflow-hidden">
+        <div class="card-header bg-success bg-opacity-10 border-0 p-4">
+          <h4 class="mb-0 text-white d-flex align-items-center">
+            <i class="bi bi-scissors me-2 text-success"></i> Detalhes do Serviço
+          </h4>
         </div>
-        <button type="submit"  (click)="registerHours()" class="btn btn-outline-light w-100 mt-3 btn-anim">
-          <i class="bi bi-check-circle"></i> Salvar Horário
-        </button>
-      </form>
-    </div>
+        <div class="card-body p-4">
+          <form (submit)="$event.preventDefault()">
+            <div class="row">
+              <div class="col-md-12 mb-3">
+                <label for="nomeServico" class="form-label small fw-bold text-uppercase opacity-75 text-light">Nome do Serviço</label>
+                <input type="text" id="nomeServico" class="form-control" placeholder="Ex: Barba e Cabelo" name="nomeServico" [(ngModel)]="nomeServico" required />
+              </div>
 
-    <!-- Cadastro de Serviços -->
-    <div class="card bg-secondary-subtle border-0 shadow-lg rounded-4 p-4">
-      <h4 class="mb-4 text-light"><i class="bi bi-scissors"></i> Serviços</h4>
-      <form>
-        <div class="mb-3">
-          <label for="nomeServico" class="form-label text-light">Nome do Serviço</label>
-          <input type="text" id="nomeServico" class="form-control" placeholder="Ex: Corte Masculino" name="nomeServico" [(ngModel)]="nomeServico" required />
-        </div>
+              <div class="col-md-12 mb-3">
+                <label for="descricao" class="form-label small fw-bold text-uppercase opacity-75 text-light">Descrição Curta</label>
+                <textarea id="descricao" class="form-control" rows="2" placeholder="Descreva os detalhes do serviço..." name="descricao" [(ngModel)]="descricao" required></textarea>
+              </div>
 
-        <div class="mb-3">
-          <label for="descricao" class="form-label text-light">Descrição</label>
-          <input type="text" id="descricao" class="form-control" placeholder="Ex: Corte Masculino" name="descricao" [(ngModel)]="descricao" required />
+              <div class="col-md-6 mb-3">
+                <label for="preco" class="form-label small fw-bold text-uppercase opacity-75 text-light">Valor do Serviço</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-dark border-secondary text-secondary">R$</span>
+                  <input type="text" id="preco" class="form-control" name="preco" [(ngModel)]="preco" mask="separator.2" thousandSeparator="." decimalMarker="," required />
+                </div>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="duracao" class="form-label small fw-bold text-uppercase opacity-75 text-light">Duração (Minutos)</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-dark border-secondary text-secondary"><i class="bi bi-hourglass-split"></i></span>
+                  <input type="number" id="duracao" class="form-control" name="duracao" [(ngModel)]="duracao" required />
+                </div>
+              </div>
+            </div>
+
+            <button type="button" class="btn btn-success w-100 py-3 mt-2 fw-bold shadow-sm btn-anim" (click)="registerService()">
+              <i class="bi bi-save2 me-2"></i> Finalizar Cadastro de Serviço
+            </button>
+          </form>
         </div>
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label for="preco" class="form-label text-light">Preço (R$)</label>
-            <input type="text" id="preco" class="form-control"  name="preco" [(ngModel)]="preco"  mask="separator.1"
-            thousandSeparator="."
-             decimalMarker="," required />
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="duracao" class="form-label text-light">Duração (min)</label>
-            <input type="number" id="duracao" class="form-control" min="0" name="duracao" [(ngModel)]="duracao" required/>
-          </div>
-        </div>
-        <button type="button" class="btn btn-outline-light w-100 mt-3 btn-anim"  (click)="registerService()">
-          <i class="bi bi-save"></i> Salvar Serviço
-        </button>
-      </form>
+      </div>
     </div>
   </div>
-  
-<div class="d-flex justify-content-center">
-  <button  class="btn btn-light w-50 mt-3 btn-anim" routerLink="/home">
-      Voltar
-  </button>
+
+  <div class="text-center mt-5">
+    <button class="btn btn-outline-secondary rounded-pill px-5 btn-anim" routerLink="/home">
+      <i class="bi bi-arrow-left me-2"></i> Voltar para Home
+    </button>
+  </div>
 </div>
-
-  
-
-

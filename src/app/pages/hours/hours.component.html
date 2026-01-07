@@ -1,31 +1,49 @@
-<div class="container my-4 container-list-hours">
-  <div class="card shadow rounded">
-    <div class="card-header bg-dark text-white d-flex align-items-center">
-      <i class="bi bi-clock-fill me-2"></i>
-      <h5 class="mb-0">Lista de Horários Cadastrados</h5>
+<div class="container my-4">
+  <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+    
+    <div class="card-header bg-dark text-white p-3">
+      <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3">
+        <div class="d-flex align-items-center">
+          <i class="bi bi-clock-fill me-2 fs-4 text-primary"></i>
+          <h5 class="mb-0 fw-bold">Horários Cadastrados</h5>
+        </div>
+        
+        <button class="btn btn-warning btn-sm rounded-pill px-3 shadow-sm btn-anim" (click)="openIndisponiveis()">
+          <i class="bi bi-calendar-x-fill me-1"></i> Ver Indisponíveis
+        </button>
+      </div>
     </div>
 
-    <div class="card-body tableHours">
+    <div class="card-body p-0">
       <div class="table-responsive" *ngIf="horarios.length > 0; else semHorarios">
-        <table class="table table-hover align-middle ">
-          <thead class="table-dark">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
             <tr>
-              <th>Horário</th>
+              <th class="ps-4">Horário</th>
               <th>Status</th>
-              <th>Ações</th>
+              <th class="text-center">Ações</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let horario of horarios">
-              <td>{{ horario.horario }}</td>
-              <td>{{ horario.status }}</td>
+              <td class="ps-4 fw-bold text-secondary">
+                <i class="bi bi-alarm me-2 text-primary"></i>{{ horario.horario }}
+              </td>
               <td>
-                <button class="btn btn-sm btn-primary me-2 " (click)="openEditForm(horario)">
-                  <i class="bi bi-pencil-square"></i> Editar
-                </button>
-                <button class="btn btn-sm btn-danger " (click)="deleteHours(horario.idDispo)" >
-                  <i class="bi bi-trash"></i> Excluir
-                </button>
+                <span class="badge rounded-pill" 
+                      [ngClass]="horario.status === 'Disponível' ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger'">
+                  {{ horario.status }}
+                </span>
+              </td>
+              <td class="text-center">
+                <div class="d-flex justify-content-center gap-2">
+                  <button class="btn btn-outline-primary btn-sm rounded-3" (click)="openEditForm(horario)" title="Editar">
+                    <i class="bi bi-pencil-square"></i> <span class="d-none d-md-inline">Editar</span>
+                  </button>
+                  <button class="btn btn-outline-danger btn-sm rounded-3" (click)="deleteHours(horario.idDispo)" title="Excluir">
+                    <i class="bi bi-trash"></i> <span class="d-none d-md-inline">Excluir</span>
+                  </button>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -33,107 +51,54 @@
       </div>
 
       <ng-template #semHorarios>
-        <div class="text-center text-muted py-4">
-          Nenhum horário cadastrado.
+        <div class="text-center text-muted py-5">
+          <i class="bi bi-calendar2-x display-4 d-block mb-3 opacity-50"></i>
+          Nenhum horário cadastrado no momento.
         </div>
       </ng-template>
     </div>
   </div>
-  <div class="d-flex justify-content-center mt-4">
-  <button class="btn btn-warning w-50 mt-3 btn-anim" (click)="openIndisponiveis()">
-    <i class="bi bi-eye-fill"></i> Ver Horários Indisponíveis
-  </button>
-</div>
 
-   <div class="d-flex justify-content-center mt-4">
-     <button  class="btn btn-light w-50 mt-3 btn-anim" routerLink="/home">
-      Voltar
-  </button>
-</div>
-
-</div>
-
-<!-- Fundo escuro (overlay) -->
-<div class="edit-overlay d-flex justify-content-center align-items-center" *ngIf="selectedHour">
-  <!-- Modal de edição -->
-  <div class="edit-popup card shadow p-4 popUpEditHours">
-
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h5 class="mb-0">Editando: {{ selectedHour.horario }}</h5>
-      <button class="btn-close" aria-label="Close" (click)="selectedHour = null"></button>
-    </div>
-
-    <div class="mb-3">
-      <label for="editHorario" class="form-label">Horário</label>
-      <input type="text" id="editHorario" [(ngModel)]="selectedHour.horario" class="form-control" readonly>
-    </div>
-
-    <div class="mb-3">
-     <label for="editStatus" class="form-label">Status</label>
-     <select id="editStatus" class="form-select custom-select-small" [(ngModel)]="selectedHour.status" >
-     <option value="Disponível">Disponível</option>
-     <option value="Indisponível">Indisponível</option>
-     </select>
-    </div>
-
-    <div class="mb-3">
-     <label for="dataIndi" class="form-label">Data Indisponível</label>
-       <input type="date" id="dataIndi" [(ngModel)]="selectedHour.dataIndisponivel" class="form-control"
-        [disabled]="selectedHour.status !== 'Indisponível'">
-     </div>
-
-    <div class="d-flex justify-content-center">
-      <button class="btn btn-success me-2 w-25" (click)="saveHour()">Salvar</button>
-      <button class="btn btn-secondary w-25" (click)="selectedHour = null">Cancelar</button>
-    </div>
-
+  <div class="text-center mt-4">
+    <button class="btn btn-link text-decoration-none text-secondary" routerLink="/home">
+      <i class="bi bi-arrow-left me-1"></i> Voltar para o Início
+    </button>
   </div>
 </div>
 
-<!-- Modal de horários indisponíveis -->
-<div class="modal fade" id="modalIndisponiveis" tabindex="-1" aria-labelledby="modalIndisponiveisLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-scrollable">
-    <div class="modal-content shadow-lg rounded-4">
-      <div class="modal-header bg-dark text-white">
-        <h5 class="modal-title" id="modalIndisponiveisLabel">
-          <i class="bi bi-calendar-x-fill me-2"></i> Horários Indisponíveis
-        </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-      </div>
-      <div class="modal-body">
-        <div *ngIf="indisponiveis.length > 0; else semIndisponiveis">
-          <table class="table table-hover align-middle">
-            <thead class="table-dark">
-              <tr>
-                <th>Horário</th>
-                <th>Data</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let ind of indisponiveis">
-                <td>{{ ind.horario }}</td>
-                <td>{{ ind.dataIndisponivel | date:'dd/MM/yyyy' }}</td>
-                <td>{{ ind.status }}</td>
-              </tr>
-            </tbody>
-          </table>
+<div class="edit-overlay d-flex justify-content-center align-items-center p-3" *ngIf="selectedHour" (click)="$event.target === $event.currentTarget && (selectedHour = null)">
+  <div class="edit-popup card shadow-2xl border-0 rounded-4 w-100 animate__animated animate__zoomIn" style="max-width: 450px;">
+    <div class="card-header bg-white border-0 pt-4 px-4 d-flex justify-content-between">
+      <h5 class="fw-bold mb-0">Ajustar Horário</h5>
+      <button class="btn-close" (click)="selectedHour = null"></button>
+    </div>
+    
+    <div class="card-body p-4">
+      <div class="mb-3">
+        <label class="form-label small fw-bold text-uppercase text-muted">Horário selecionado</label>
+        <div class="input-group">
+          <span class="input-group-text bg-light border-0"><i class="bi bi-clock"></i></span>
+          <input type="text" [(ngModel)]="selectedHour.horario" class="form-control bg-light border-1" readonly>
         </div>
-        <ng-template #semIndisponiveis>
-          <div class="text-center text-muted py-4">
-            Nenhum horário indisponível encontrado.
-          </div>
-        </ng-template>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+
+      <div class="mb-3">
+        <label class="form-label small fw-bold text-uppercase text-muted">Definir Status</label>
+        <select class="form-select border-2" [(ngModel)]="selectedHour.status">
+          <option value="Disponível">✅ Disponível</option>
+          <option value="Indisponível">❌ Indisponível</option>
+        </select>
+      </div>
+
+      <div class="mb-4" *ngIf="selectedHour.status === 'Indisponível'">
+        <label class="form-label small fw-bold text-uppercase text-muted">Data do Bloqueio</label>
+        <input type="date" [(ngModel)]="selectedHour.dataIndisponivel" class="form-control border-2 border-warning shadow-sm">
+      </div>
+
+      <div class="d-grid gap-2">
+        <button class="btn btn-primary py-2 fw-bold shadow" (click)="saveHour()">Salvar Alterações</button>
+        <button class="btn btn-light py-2" (click)="selectedHour = null">Cancelar</button>
       </div>
     </div>
   </div>
 </div>
-
-
-
-
-
-
